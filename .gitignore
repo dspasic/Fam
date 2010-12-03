@@ -8,3 +8,6 @@ build/coverage/*.html
 build/coverage/*.css
 build/coverage/*.png
 build/coverage/*.gif
+jchart.svg
+pdepend.xml
+pyramid.svg
