@@ -7,8 +7,12 @@
  *
  * @package    Util
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
- * @version    SVN: $Id: webBrowserDetector.class.php 42628 2008-10-27 22:29:37Z twt_dspasic $
+ * @version    GIT: $Id:$
  */
+
+declare(encoding="UTF-8");
+
+namespace Fam\Util;
 
 /**
  * A lightweight and fast browser detector
@@ -38,7 +42,7 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    @@PACKAGE_VERSION@@
  */
-class webBrowserDetector
+class WebBrowserDetector
 {
     /**#@+
      * OS definitions
@@ -85,7 +89,7 @@ class webBrowserDetector
      *
      * @var int
      */
-    protected $webClientVersion = null;S
+    protected $webClientVersion = null;
     
     /**
      * a instance of webBrowserDetector
