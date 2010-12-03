@@ -2,3 +2,9 @@
 .project
 .setting
 .settings
+build/logs/*.xml
+build/coverage/*.js
+build/coverage/*.html
+build/coverage/*.css
+build/coverage/*.png
+build/coverage/*.gif
