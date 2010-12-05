@@ -155,7 +155,6 @@ class WebBrowserDetector
     public static function restoreInstance()
     {
         self::$self = null;
-        return self::getInstance();
     }
 
     /**
