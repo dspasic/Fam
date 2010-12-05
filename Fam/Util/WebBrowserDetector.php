@@ -110,7 +110,7 @@ class WebBrowserDetector
      *
      * @return void
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function __construct()
     {
@@ -122,7 +122,7 @@ class WebBrowserDetector
      *
      * @return void
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     private function __clone() {}
     
@@ -131,7 +131,7 @@ class WebBrowserDetector
      *
      * @return webBrowserDetector
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function getInstance()
@@ -149,7 +149,7 @@ class WebBrowserDetector
      *
      * @return webBrowserDetector
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function restoreInstance()
@@ -163,7 +163,7 @@ class WebBrowserDetector
      *
      * @return string
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function os()
@@ -176,7 +176,7 @@ class WebBrowserDetector
      *
      * @return float
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function webClientVersion()
@@ -189,7 +189,7 @@ class WebBrowserDetector
      *
      * @return string
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function webClient()
@@ -204,7 +204,7 @@ class WebBrowserDetector
      *
      * @return bool
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function isOs($os)
@@ -219,7 +219,7 @@ class WebBrowserDetector
      *
      * @return bool
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function isWebClient($wc)
@@ -235,7 +235,7 @@ class WebBrowserDetector
      *
      * @return bool
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function isWebClientVersionBetween($version1, $version2)
@@ -250,7 +250,7 @@ class WebBrowserDetector
      *
      * @return bool
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      * @static
      */
     public static function isWebClientVersion($v)
@@ -263,7 +263,7 @@ class WebBrowserDetector
      *
      * @return void
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function detect()
     {
@@ -283,7 +283,7 @@ class WebBrowserDetector
      *
      * @return void
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function detectOs($ua)
     {
@@ -324,7 +324,7 @@ class WebBrowserDetector
      *
      * @return void
      *
-     * @author Dejan Spasic <spasic@twt.de>
+     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function detectWebClient($ua)
     {
