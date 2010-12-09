@@ -52,7 +52,7 @@ class WebBrowserDetector
     const OS_UNDEFINED = null;
     const OS_WIN       = 'win';
     const OS_MAC       = 'mac';
-    const OS_UNIX      = 'mac';
+    const OS_UNIX      = 'unix';
     /**#@-*/
 
     /**#@+
