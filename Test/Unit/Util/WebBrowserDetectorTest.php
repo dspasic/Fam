@@ -55,6 +55,90 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(6.0, \Fam\Util\WebBrowserDetector::webClientVersion());
     }
     
+    /**
+     * @test
+     */
+    public function isOs()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertTrue(
+            \Fam\Util\WebBrowserDetector::isOs(\Fam\Util\WebBrowserDetector::OS_WIN), 
+            'Expected OS is WIN'
+        );
+        $this->assertFalse(
+            \Fam\Util\WebBrowserDetector::isOs(\Fam\Util\WebBrowserDetector::OS_UNDEFINED), 
+            'Not exptected OS undefined'
+        );
+    }
+    
+    /**
+     * @test
+     */
+    public function isWebClient()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertTrue(
+            \Fam\Util\WebBrowserDetector::isWebClient(\Fam\Util\WebBrowserDetector::WEBCLIENT_IE), 
+            'Expected web client is IE'
+        );
+        $this->assertFalse(
+            \Fam\Util\WebBrowserDetector::isWebClient(\Fam\Util\WebBrowserDetector::WEBCLIENT_FF), 
+            'Not exptected web client FireFox'
+        );
+    }
+    
+    /**
+     * @test
+     */
+    public function isWebClientVersion()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertTrue(
+            \Fam\Util\WebBrowserDetector::isWebClientVersion(6),
+            'Expected matching with version 6'
+        );
+        
+        $this->assertFalse(
+            \Fam\Util\WebBrowserDetector::isWebClientVersion(8),
+            'Not expected version of 8'
+        );
+    }
+    
+    /**
+     * @test
+     */
+    public function isWebClientVersionBetween()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertTrue(
+            \Fam\Util\WebBrowserDetector::isWebClientVersionBetween(4, 7),
+            'Expcted a range between 4 and 7'
+        );
+    }
+    
+    /**
+     * @test
+     */
+    public function isWebClientVersionBetween_notValidWithLowerThan()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertFalse(
+            \Fam\Util\WebBrowserDetector::isWebClientVersionBetween(4, 5),
+            'Expcted a out of range between 4 and 5'
+        );
+    }
+    
+    /**
+     * @test
+     */
+    public function isWebClientVersionBetween_notValidWithGreaterThan()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertFalse(
+            \Fam\Util\WebBrowserDetector::isWebClientVersionBetween(7, 8),
+            'Expcted a out of range between 7 and 8'
+        );
+    }
 
     public function userAgentOsDataProvider()
     {
