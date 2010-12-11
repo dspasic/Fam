@@ -94,24 +94,17 @@ class WebBrowserDetector
     /**
      * a instance of webBrowserDetector
      *
-     * @var    webBrowserDetector
+     * @var webBrowserDetector
      */
     protected static $self = null;
     
     /**
      * marks if the detection allready runs
      *
-     * @var    bool
+     * @var bool
      */
     protected $detect = false;
 
-    /**
-     * constructor
-     *
-     * @return void
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     */
     protected function __construct()
     {
         $this->detect();
@@ -119,10 +112,6 @@ class WebBrowserDetector
 
     /**
      * override clone to deny the access
-     *
-     * @return void
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     private function __clone() {}
     
@@ -130,9 +119,6 @@ class WebBrowserDetector
      * return alway the same instance of the class
      *
      * @return webBrowserDetector
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function getInstance()
     {
@@ -143,14 +129,7 @@ class WebBrowserDetector
     }
 
     /**
-     * Restore the instance
-     *
      * Primary using for unittests
-     *
-     * @return webBrowserDetector
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function restoreInstance()
     {
@@ -158,12 +137,7 @@ class WebBrowserDetector
     }
 
     /**
-     * return the os
-     *
      * @return string
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function os()
     {
@@ -171,12 +145,7 @@ class WebBrowserDetector
     }
     
     /**
-     * returns the web client version
-     *
      * @return float
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function webClientVersion()
     {
@@ -184,12 +153,7 @@ class WebBrowserDetector
     }
     
     /**
-     * returns the web client
-     *
      * @return string
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function webClient()
     {
@@ -197,14 +161,9 @@ class WebBrowserDetector
     }
     
     /**
-     * give back if the given argument match with the detected os
-     *
      * @param string $os The OS to compare with
      *
      * @return bool
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function isOs($os)
     {
@@ -212,14 +171,9 @@ class WebBrowserDetector
     }
     
     /**
-     * give back if the given argument match with the detected webclient
-     *
      * @param string $wc The webclient to compare with
      *
      * @return bool
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function isWebClient($wc)
     {
@@ -233,9 +187,6 @@ class WebBrowserDetector
      * @param float $version2 The lager value
      *
      * @return bool
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function isWebClientVersionBetween($version1, $version2)
     {
@@ -243,14 +194,9 @@ class WebBrowserDetector
     }
     
     /**
-     * give back if the given argument match with the detected webclient version
-     *
      * @param float $v The version
      *
      * @return bool
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
-     * @static
      */
     public static function isWebClientVersion($v)
     {
@@ -259,10 +205,6 @@ class WebBrowserDetector
     
     /**
      * Detecets the user agent
-     *
-     * @return void
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function detect()
     {
@@ -276,13 +218,7 @@ class WebBrowserDetector
     }
     
     /**
-     * Detects the OS
-     *
      * @param string $ua The user agent informations
-     *
-     * @return void
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function detectOs($ua)
     {
@@ -317,13 +253,7 @@ class WebBrowserDetector
     }
     
     /**
-     * Detects the web client
-     *
      * @param string $ua The user agent informations
-     *
-     * @return void
-     *
-     * @author Dejan Spasic <spasic.dejan@yahoo.de>
      */
     protected function detectWebClient($ua)
     {

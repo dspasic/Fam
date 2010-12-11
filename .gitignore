@@ -11,3 +11,4 @@ build/coverage/*.gif
 jchart.svg
 pdepend.xml
 pyramid.svg
+nbproject
