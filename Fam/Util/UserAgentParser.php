@@ -96,13 +96,6 @@ class UserAgentParser
      * @var UserAgentParser
      */
     protected static $self = null;
-    
-    /**
-     * marks if the detection allready runs
-     *
-     * @var bool
-     */
-    protected $detect = false;
 
     protected function __construct()
     {
@@ -111,13 +104,10 @@ class UserAgentParser
 
     protected function parseUserAgent()
     {
-        if ($this->detect) return;
         if (false === ($this->userAgent = getenv("HTTP_USER_AGENT"))) return;
 
         $this->parseOs();
         $this->parseWebClient();
-
-        $this->detect = true;
     }
 
     protected function parseOs()
