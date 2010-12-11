@@ -110,6 +110,90 @@ class WebBrowserDetector
         $this->detectUserAgent();
     }
 
+    protected function detectUserAgent()
+    {
+        if ($this->detect) return;
+        if (false === ($ua = getenv("HTTP_USER_AGENT"))) return;
+
+        $this->detectOs($ua);
+        $this->detectWebClient($ua);
+
+        $this->detect = true;
+    }
+
+    /**
+     * @param string $ua The user agent informations
+     */
+    protected function detectOs($ua)
+    {
+        switch (true) {
+            case preg_match('/windows/i', $ua):
+            case preg_match('/win98/i', $ua):
+            case preg_match('/win95/i', $ua):
+            case preg_match('/win 9x/i', $ua):
+                $this->osClient = self::OS_WIN;;
+                return;
+
+            case preg_match('/Mac_PowerPC/i', $ua):
+            case preg_match('/Mac OS X/i', $ua):
+            case preg_match('/Macintosh/i', $ua):
+                $this->osClient = self::OS_MAC;
+                return;
+
+            case preg_match('/Linux/i', $ua):
+            case preg_match('/FreeBSD/i', $ua):
+            case preg_match('/NetBSD/i', $ua):
+            case preg_match('/OpenBSD/i', $ua):
+            case preg_match('/IRIX/i', $ua):
+            case preg_match('/SunOS/i', $ua):
+            case preg_match('/Unix/i', $ua):
+                $this->osClient = self::OS_UNIX;
+                return;
+
+            default:
+                $this->osClient = self::OS_UNDEFINED;
+                return;
+        }
+    }
+
+    /**
+     * @param string $ua The user agent informations
+     */
+    protected function detectWebClient($ua)
+    {
+        switch (true) {
+            case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $ua, $matches):
+                $this->webClientVersion = (float)$matches[1];
+                $this->webClient        = self::WEBCLIENT_IE;
+                return;
+
+            case preg_match('#(Firefox|Phoenix|Firebird)/([a-zA-Z0-9.]+)#i', $ua, $matches):
+                $this->webClientVersion = (float)$matches[2];
+                $this->webClient        = self::WEBCLIENT_FF;
+                return;
+
+            case preg_match('#Safari/([a-zA-Z0-9.]+)#i', $ua, $matches):
+                $this->webClientVersion = (float)$matches[1];
+                $this->webClient        = self::WEBCLIENT_SAFARI;
+                return;
+
+            case preg_match('#Opera[ /]([a-zA-Z0-9.]+)#i', $ua, $matches):
+                $this->webClientVersion = (float)$matches[1];
+                $this->webClient        = self::WEBCLIENT_OP;
+                return;
+
+            case preg_match('#Netscape[0-9]?/([a-zA-Z0-9.]+)#i', $ua, $matches):
+                $this->webClientVersion = (float)$matches[1];
+                $this->webClient        = self::WEBCLIENT_NS;
+                return;
+
+            default:
+                $this->webClientVersion = self::WEBCLIENT_UNDEFINED;
+                $this->webClient        = self::WEBCLIENT_UNDEFINED;
+                return;
+        }
+    }
+
     /**
      * override clone to deny the access
      */
@@ -143,23 +227,7 @@ class WebBrowserDetector
     {
         return self::getInstance()->osClient;
     }
-    
-    /**
-     * @return float
-     */
-    public static function webClientVersion()
-    {
-        return self::getInstance()->webClientVersion;
-    }
-    
-    /**
-     * @return string
-     */
-    public static function webClient()
-    {
-        return self::getInstance()->webClient;
-    }
-    
+
     /**
      * @param string $os The OS to compare with
      *
@@ -171,6 +239,14 @@ class WebBrowserDetector
     }
     
     /**
+     * @return string
+     */
+    public static function webClient()
+    {
+        return self::getInstance()->webClient;
+    }
+    
+    /**
      * @param string $wc The webclient to compare with
      *
      * @return bool
@@ -178,6 +254,14 @@ class WebBrowserDetector
     public static function isWebClient($wc)
     {
         return self::webClient() === $wc;
+    }
+
+    /**
+     * @return float
+     */
+    public static function webClientVersion()
+    {
+        return self::getInstance()->webClientVersion;
     }
     
     /**
@@ -201,89 +285,5 @@ class WebBrowserDetector
     public static function isWebClientVersion($v)
     {
         return self::webClientVersion() === (float)$v;
-    }
-
-    protected function detectUserAgent()
-    {
-        if ($this->detect) return;
-        if (false === ($ua = getenv("HTTP_USER_AGENT"))) return;
-    
-        $this->detectOs($ua);
-        $this->detectWebClient($ua);
-    
-        $this->detect = true;
-    }
-    
-    /**
-     * @param string $ua The user agent informations
-     */
-    protected function detectOs($ua)
-    {
-        switch (true) {
-            case preg_match('/windows/i', $ua):
-            case preg_match('/win98/i', $ua):
-            case preg_match('/win95/i', $ua):
-            case preg_match('/win 9x/i', $ua):
-                $this->osClient = self::OS_WIN;;
-                return;
-            
-            case preg_match('/Mac_PowerPC/i', $ua):
-            case preg_match('/Mac OS X/i', $ua):
-            case preg_match('/Macintosh/i', $ua):
-                $this->osClient = self::OS_MAC;
-                return;
-            
-            case preg_match('/Linux/i', $ua):
-            case preg_match('/FreeBSD/i', $ua):
-            case preg_match('/NetBSD/i', $ua):
-            case preg_match('/OpenBSD/i', $ua):
-            case preg_match('/IRIX/i', $ua):
-            case preg_match('/SunOS/i', $ua):
-            case preg_match('/Unix/i', $ua):
-                $this->osClient = self::OS_UNIX;
-                return;
-            
-            default:
-                $this->osClient = self::OS_UNDEFINED;
-                return;
-        }
-    }
-    
-    /**
-     * @param string $ua The user agent informations
-     */
-    protected function detectWebClient($ua)
-    {
-        switch (true) {
-            case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $ua, $matches):
-                $this->webClientVersion = (float)$matches[1];
-                $this->webClient        = self::WEBCLIENT_IE;
-                return;
-            
-            case preg_match('#(Firefox|Phoenix|Firebird)/([a-zA-Z0-9.]+)#i', $ua, $matches):
-                $this->webClientVersion = (float)$matches[2];
-                $this->webClient        = self::WEBCLIENT_FF;
-                return;
-            
-            case preg_match('#Safari/([a-zA-Z0-9.]+)#i', $ua, $matches):
-                $this->webClientVersion = (float)$matches[1];
-                $this->webClient        = self::WEBCLIENT_SAFARI;
-                return;
-            
-            case preg_match('#Opera[ /]([a-zA-Z0-9.]+)#i', $ua, $matches):
-                $this->webClientVersion = (float)$matches[1];
-                $this->webClient        = self::WEBCLIENT_OP;
-                return;
-            
-            case preg_match('#Netscape[0-9]?/([a-zA-Z0-9.]+)#i', $ua, $matches):
-                $this->webClientVersion = (float)$matches[1];
-                $this->webClient        = self::WEBCLIENT_NS;
-                return;
-            
-            default:
-                $this->webClientVersion = self::WEBCLIENT_UNDEFINED;
-                $this->webClient        = self::WEBCLIENT_UNDEFINED;
-                return;
-        }
     }
 }
