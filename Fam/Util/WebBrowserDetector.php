@@ -107,7 +107,7 @@ class WebBrowserDetector
 
     protected function __construct()
     {
-        $this->detect();
+        $this->detectUserAgent();
     }
 
     /**
@@ -202,11 +202,8 @@ class WebBrowserDetector
     {
         return self::webClientVersion() === (float)$v;
     }
-    
-    /**
-     * Detecets the user agent
-     */
-    protected function detect()
+
+    protected function detectUserAgent()
     {
         if ($this->detect) return;
         if (false === ($ua = getenv("HTTP_USER_AGENT"))) return;
