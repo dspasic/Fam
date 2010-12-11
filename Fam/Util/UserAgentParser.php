@@ -69,27 +69,26 @@ class UserAgentParser
     /**#@-*/
 
     /**
-     * the current webclient
-     *
      * @var string
      * @see UserAgentParser::WEBCLIENT_*
      */
     protected $webClient = null;
     
     /**
-     * the current os
-     *
      * @var string
      * @see UserAgentParser::OS_*
      */
     protected $osClient = null;
     
     /**
-     * The webclient version
-     *
      * @var int
      */
     protected $webClientVersion = null;
+
+    /**
+     * @var string
+     */
+    private $userAgent = null;
     
     /**
      * a instance of UserAgentParser
@@ -113,40 +112,37 @@ class UserAgentParser
     protected function parseUserAgent()
     {
         if ($this->detect) return;
-        if (false === ($ua = getenv("HTTP_USER_AGENT"))) return;
+        if (false === ($this->userAgent = getenv("HTTP_USER_AGENT"))) return;
 
-        $this->parseOs($ua);
-        $this->parseWebClient($ua);
+        $this->parseOs();
+        $this->parseWebClient();
 
         $this->detect = true;
     }
 
-    /**
-     * @param string $ua The user agent informations
-     */
-    protected function parseOs($ua)
+    protected function parseOs()
     {
         switch (true) {
-            case preg_match('/windows/i', $ua):
-            case preg_match('/win98/i', $ua):
-            case preg_match('/win95/i', $ua):
-            case preg_match('/win 9x/i', $ua):
+            case preg_match('/windows/i', $this->userAgent):
+            case preg_match('/win98/i', $this->userAgent):
+            case preg_match('/win95/i', $this->userAgent):
+            case preg_match('/win 9x/i', $this->userAgent):
                 $this->osClient = self::OS_WIN;;
                 return;
 
-            case preg_match('/Mac_PowerPC/i', $ua):
-            case preg_match('/Mac OS X/i', $ua):
-            case preg_match('/Macintosh/i', $ua):
+            case preg_match('/Mac_PowerPC/i', $this->userAgent):
+            case preg_match('/Mac OS X/i', $this->userAgent):
+            case preg_match('/Macintosh/i', $this->userAgent):
                 $this->osClient = self::OS_MAC;
                 return;
 
-            case preg_match('/Linux/i', $ua):
-            case preg_match('/FreeBSD/i', $ua):
-            case preg_match('/NetBSD/i', $ua):
-            case preg_match('/OpenBSD/i', $ua):
-            case preg_match('/IRIX/i', $ua):
-            case preg_match('/SunOS/i', $ua):
-            case preg_match('/Unix/i', $ua):
+            case preg_match('/Linux/i', $this->userAgent):
+            case preg_match('/FreeBSD/i', $this->userAgent):
+            case preg_match('/NetBSD/i', $this->userAgent):
+            case preg_match('/OpenBSD/i', $this->userAgent):
+            case preg_match('/IRIX/i', $this->userAgent):
+            case preg_match('/SunOS/i', $this->userAgent):
+            case preg_match('/Unix/i', $this->userAgent):
                 $this->osClient = self::OS_UNIX;
                 return;
 
@@ -156,33 +152,30 @@ class UserAgentParser
         }
     }
 
-    /**
-     * @param string $ua The user agent informations
-     */
-    protected function parseWebClient($ua)
+    protected function parseWebClient()
     {
         switch (true) {
-            case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $ua, $matches):
+            case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
                 $this->webClientVersion = (float)$matches[1];
                 $this->webClient        = self::WEBCLIENT_IE;
                 return;
 
-            case preg_match('#(Firefox|Phoenix|Firebird)/([a-zA-Z0-9.]+)#i', $ua, $matches):
+            case preg_match('#(Firefox|Phoenix|Firebird)/([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
                 $this->webClientVersion = (float)$matches[2];
                 $this->webClient        = self::WEBCLIENT_FF;
                 return;
 
-            case preg_match('#Safari/([a-zA-Z0-9.]+)#i', $ua, $matches):
+            case preg_match('#Safari/([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
                 $this->webClientVersion = (float)$matches[1];
                 $this->webClient        = self::WEBCLIENT_SAFARI;
                 return;
 
-            case preg_match('#Opera[ /]([a-zA-Z0-9.]+)#i', $ua, $matches):
+            case preg_match('#Opera[ /]([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
                 $this->webClientVersion = (float)$matches[1];
                 $this->webClient        = self::WEBCLIENT_OP;
                 return;
 
-            case preg_match('#Netscape[0-9]?/([a-zA-Z0-9.]+)#i', $ua, $matches):
+            case preg_match('#Netscape[0-9]?/([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
                 $this->webClientVersion = (float)$matches[1];
                 $this->webClient        = self::WEBCLIENT_NS;
                 return;
