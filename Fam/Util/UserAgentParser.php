@@ -21,19 +21,19 @@ namespace Fam\Util;
  * envorinment HTTP_USER_AGENT.
  *
  * <code>
- *   if (webBrowserDetector::isWebClient(webBrowserDetector::WEBCLIENT_OP)) {
- *       if (webBrowserDetector::isWebClientVersionBetween(9.5, 9.6)) {
+ *   if (UserAgentParser::isWebClient(UserAgentParser::WEBCLIENT_OP)) {
+ *       if (UserAgentParser::isWebClientVersionBetween(9.5, 9.6)) {
  *           use_stylesheet('brigitte/opera95.css');
  *       }
- *       else if (webBrowserDetector::isWebClientVersionBetween(9.2, 9.4)) {
+ *       else if (UserAgentParser::isWebClientVersionBetween(9.2, 9.4)) {
  *           use_stylesheet('brigitte/opera92.css');
  *       }
  *   }
- *   else if (webBrowserDetector::isWebClient(webBrowserDetector::WEBCLIENT_SAFARI)) {
+ *   else if (UserAgentParser::isWebClient(UserAgentParser::WEBCLIENT_SAFARI)) {
  *       use_stylesheet('brigitte/safari.css');
  *   }
  *
- *   if (webBrowserDetector::isOs(webBrowserDetector::OS_MAC)) {
+ *   if (UserAgentParser::isOs(UserAgentParser::OS_MAC)) {
  *       use_stylesheet('brigitte/mac.css');
  *   }
  * </code>
@@ -42,7 +42,7 @@ namespace Fam\Util;
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    @@PACKAGE_VERSION@@
  */
-class WebBrowserDetector
+class UserAgentParser
 {
     /**#@+
      * OS definitions
@@ -72,7 +72,7 @@ class WebBrowserDetector
      * the current webclient
      *
      * @var string
-     * @see webBrowserDetector::WEBCLIENT_*
+     * @see UserAgentParser::WEBCLIENT_*
      */
     protected $webClient = null;
     
@@ -80,7 +80,7 @@ class WebBrowserDetector
      * the current os
      *
      * @var string
-     * @see webBrowserDetector::OS_*
+     * @see UserAgentParser::OS_*
      */
     protected $osClient = null;
     
@@ -92,9 +92,9 @@ class WebBrowserDetector
     protected $webClientVersion = null;
     
     /**
-     * a instance of webBrowserDetector
+     * a instance of UserAgentParser
      *
-     * @var webBrowserDetector
+     * @var UserAgentParser
      */
     protected static $self = null;
     
@@ -107,16 +107,16 @@ class WebBrowserDetector
 
     protected function __construct()
     {
-        $this->detectUserAgent();
+        $this->parseUserAgent();
     }
 
-    protected function detectUserAgent()
+    protected function parseUserAgent()
     {
         if ($this->detect) return;
         if (false === ($ua = getenv("HTTP_USER_AGENT"))) return;
 
-        $this->detectOs($ua);
-        $this->detectWebClient($ua);
+        $this->parseOs($ua);
+        $this->parseWebClient($ua);
 
         $this->detect = true;
     }
@@ -124,7 +124,7 @@ class WebBrowserDetector
     /**
      * @param string $ua The user agent informations
      */
-    protected function detectOs($ua)
+    protected function parseOs($ua)
     {
         switch (true) {
             case preg_match('/windows/i', $ua):
@@ -159,7 +159,7 @@ class WebBrowserDetector
     /**
      * @param string $ua The user agent informations
      */
-    protected function detectWebClient($ua)
+    protected function parseWebClient($ua)
     {
         switch (true) {
             case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $ua, $matches):
@@ -202,7 +202,7 @@ class WebBrowserDetector
     /**
      * return alway the same instance of the class
      *
-     * @return webBrowserDetector
+     * @return UserAgentParser
      */
     public static function getInstance()
     {

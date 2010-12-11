@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../../../Fam/Util/WebBrowserDetector.php";
+require_once __DIR__ . "/../../../Fam/Util/UserAgentParser.php";
 
-class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 {
     private $originHttpUserAgent = null;
 
@@ -13,7 +13,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        \Fam\Util\WebBrowserDetector::restoreInstance();
+        \Fam\Util\UserAgentParser::restoreInstance();
         putenv("HTTP_USER_AGENT=" . $this->originHttpUserAgent);
     }
     
@@ -24,7 +24,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     public function detectOs($userAgent, $expectedOs)
     {
         putenv("HTTP_USER_AGENT=" . $userAgent);
-        $this->assertEquals($expectedOs, \Fam\Util\WebBrowserDetector::os());
+        $this->assertEquals($expectedOs, \Fam\Util\UserAgentParser::os());
     }
     
     /**
@@ -34,7 +34,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     public function detectWebClient($userAgent, $expectedWebClient)
     {
         putenv("HTTP_USER_AGENT=" . $userAgent);
-        $this->assertEquals($expectedWebClient, \Fam\Util\WebBrowserDetector::webClient());
+        $this->assertEquals($expectedWebClient, \Fam\Util\UserAgentParser::webClient());
     }
     
     /**
@@ -43,7 +43,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     public function webClientVersion_withUndefinedUserAgent()
     {
         putenv("HTTP_USER_AGENT=Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c");
-        $this->assertEquals(\Fam\Util\WebBrowserDetector::WEBCLIENT_UNDEFINED, \Fam\Util\WebBrowserDetector::webClientVersion());
+        $this->assertEquals(\Fam\Util\UserAgentParser::WEBCLIENT_UNDEFINED, \Fam\Util\UserAgentParser::webClientVersion());
     }
 
     /**
@@ -52,7 +52,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     public function webClientVersion_withMSIE_60()
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertEquals(6.0, \Fam\Util\WebBrowserDetector::webClientVersion());
+        $this->assertEquals(6.0, \Fam\Util\UserAgentParser::webClientVersion());
     }
     
     /**
@@ -62,11 +62,11 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertTrue(
-            \Fam\Util\WebBrowserDetector::isOs(\Fam\Util\WebBrowserDetector::OS_WIN), 
+            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_WIN),
             'Expected OS is WIN'
         );
         $this->assertFalse(
-            \Fam\Util\WebBrowserDetector::isOs(\Fam\Util\WebBrowserDetector::OS_UNDEFINED), 
+            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_UNDEFINED),
             'Not exptected OS undefined'
         );
     }
@@ -78,11 +78,11 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertTrue(
-            \Fam\Util\WebBrowserDetector::isWebClient(\Fam\Util\WebBrowserDetector::WEBCLIENT_IE), 
+            \Fam\Util\UserAgentParser::isWebClient(\Fam\Util\UserAgentParser::WEBCLIENT_IE),
             'Expected web client is IE'
         );
         $this->assertFalse(
-            \Fam\Util\WebBrowserDetector::isWebClient(\Fam\Util\WebBrowserDetector::WEBCLIENT_FF), 
+            \Fam\Util\UserAgentParser::isWebClient(\Fam\Util\UserAgentParser::WEBCLIENT_FF),
             'Not exptected web client FireFox'
         );
     }
@@ -94,12 +94,12 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertTrue(
-            \Fam\Util\WebBrowserDetector::isWebClientVersion(6),
+            \Fam\Util\UserAgentParser::isWebClientVersion(6),
             'Expected matching with version 6'
         );
         
         $this->assertFalse(
-            \Fam\Util\WebBrowserDetector::isWebClientVersion(8),
+            \Fam\Util\UserAgentParser::isWebClientVersion(8),
             'Not expected version of 8'
         );
     }
@@ -111,7 +111,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertTrue(
-            \Fam\Util\WebBrowserDetector::isWebClientVersionBetween(4, 7),
+            \Fam\Util\UserAgentParser::isWebClientVersionBetween(4, 7),
             'Expcted a range between 4 and 7'
         );
     }
@@ -123,7 +123,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertFalse(
-            \Fam\Util\WebBrowserDetector::isWebClientVersionBetween(4, 5),
+            \Fam\Util\UserAgentParser::isWebClientVersionBetween(4, 5),
             'Expcted a out of range between 4 and 5'
         );
     }
@@ -135,7 +135,7 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertFalse(
-            \Fam\Util\WebBrowserDetector::isWebClientVersionBetween(7, 8),
+            \Fam\Util\UserAgentParser::isWebClientVersionBetween(7, 8),
             'Expcted a out of range between 7 and 8'
         );
     }
@@ -145,72 +145,72 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
         return array(
             array(
             	"Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c", 
-                \Fam\Util\WebBrowserDetector::OS_UNDEFINED,   
+                \Fam\Util\UserAgentParser::OS_UNDEFINED,
             ),
             
             array(
                 "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-                \Fam\Util\WebBrowserDetector::OS_WIN,
+                \Fam\Util\UserAgentParser::OS_WIN,
             ),
             
             array(
                 "Mozilla/4.0 (compatible; MSIE 6.0; win98 5.0)",
-                \Fam\Util\WebBrowserDetector::OS_WIN,
+                \Fam\Util\UserAgentParser::OS_WIN,
             ),
             
             array(
                 "Mozilla/4.0 (compatible; MSIE 6.0; win95 5.0)",
-                \Fam\Util\WebBrowserDetector::OS_WIN,
+                \Fam\Util\UserAgentParser::OS_WIN,
             ),
             
             array(
                 "Mozilla/4.0 (compatible; MSIE 6.0; win 9x 5.0)",
-                \Fam\Util\WebBrowserDetector::OS_WIN,
+                \Fam\Util\UserAgentParser::OS_WIN,
             ),
             
             array(
                 "Mozilla/5.0 (Mac_PowerPC; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-                \Fam\Util\WebBrowserDetector::OS_MAC,
+                \Fam\Util\UserAgentParser::OS_MAC,
             ),
             
             array(
                 "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-                \Fam\Util\WebBrowserDetector::OS_MAC,
+                \Fam\Util\UserAgentParser::OS_MAC,
             ),
             
             array(
                 "Mozilla/5.0 (Mac OS X; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-                \Fam\Util\WebBrowserDetector::OS_MAC,
+                \Fam\Util\UserAgentParser::OS_MAC,
             ),
             
             array(
                 "Mozilla/5.0 (compatible; Konqueror/3.2; Linux 2.6.2) (KHTML, like Gecko)",
-                \Fam\Util\WebBrowserDetector::OS_UNIX,
+                \Fam\Util\UserAgentParser::OS_UNIX,
             ),
             
             array(
                 "Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD 2.6) (KHTML, like Gecko)",
-                \Fam\Util\WebBrowserDetector::OS_UNIX,
+                \Fam\Util\UserAgentParser::OS_UNIX,
             ),
 
             array(
                 "Mozilla/5.0 (compatible; Konqueror/3.2; NetBSD 2.6) (KHTML, like Gecko)",
-                \Fam\Util\WebBrowserDetector::OS_UNIX,
+                \Fam\Util\UserAgentParser::OS_UNIX,
             ),
 
             array(
                 "Mozilla/5.0 (compatible; Konqueror/3.2; IRIX 2.6) (KHTML, like Gecko)",
-                \Fam\Util\WebBrowserDetector::OS_UNIX,
+                \Fam\Util\UserAgentParser::OS_UNIX,
             ),
             
             array(
                 "Mozilla/5.0 (compatible; Konqueror/3.2; SunOS 2.6) (KHTML, like Gecko)",
-                \Fam\Util\WebBrowserDetector::OS_UNIX,
+                \Fam\Util\UserAgentParser::OS_UNIX,
             ),
             
             array(
                 "Mozilla/5.0 (compatible; Konqueror/3.2; Unix 2.6) (KHTML, like Gecko)",
-                \Fam\Util\WebBrowserDetector::OS_UNIX,
+                \Fam\Util\UserAgentParser::OS_UNIX,
             ),
         );
     }
@@ -220,32 +220,32 @@ class Fam_Util_WebBrowserDetectorTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 "Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c", 
-                \Fam\Util\WebBrowserDetector::WEBCLIENT_UNDEFINED,   
+                \Fam\Util\UserAgentParser::WEBCLIENT_UNDEFINED,
             ),
             
             array(
                 "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-                \Fam\Util\WebBrowserDetector::WEBCLIENT_IE,
+                \Fam\Util\UserAgentParser::WEBCLIENT_IE,
             ),
             
             array(
                 "User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; de; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12",
-                \Fam\Util\WebBrowserDetector::WEBCLIENT_FF,
+                \Fam\Util\UserAgentParser::WEBCLIENT_FF,
             ),
             
             array(
                 "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-HK) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5",
-                \Fam\Util\WebBrowserDetector::WEBCLIENT_SAFARI,
+                \Fam\Util\UserAgentParser::WEBCLIENT_SAFARI,
             ),
             
             array(
                 "Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9",
-                \Fam\Util\WebBrowserDetector::WEBCLIENT_OP,
+                \Fam\Util\UserAgentParser::WEBCLIENT_OP,
             ),
             
             array(
                 "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20060127 Netscape/8.1",
-                \Fam\Util\WebBrowserDetector::WEBCLIENT_NS,
+                \Fam\Util\UserAgentParser::WEBCLIENT_NS,
             ),
         );
     }
