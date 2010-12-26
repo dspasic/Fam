@@ -145,7 +145,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function getOperatingSystem()
     {
-      $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
     }
 
     /**
@@ -153,12 +153,12 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function addOperatingSystem()
     {
-      $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
 
-      $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
-      \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
-      
-      $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+        \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
+
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
     }
 
     /**
@@ -166,13 +166,13 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function removeOperatingSystem()
     {
-      $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+        $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
 
-      \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
-      $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
 
-      \Fam\Util\UserAgentParser::getInstance()->removeOperatingSystem($op);
-      $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        \Fam\Util\UserAgentParser::getInstance()->removeOperatingSystem($op);
+        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
     }
 
 
@@ -181,13 +181,23 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function removeOperatingSystemByClassName()
     {
-      $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+        $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
 
-      \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
-      $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
 
-      \Fam\Util\UserAgentParser::getInstance()->removeOperatingSystemByClassName(get_class($op));
-      $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        \Fam\Util\UserAgentParser::getInstance()->removeOperatingSystemByClassName(get_class($op));
+        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+    }
+
+    /**
+     * @test
+     */
+    public function setGetUndefinedOperatingSystem()
+    {
+        $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+        \Fam\Util\UserAgentParser::getInstance()->setUndefinedOperatingSystem($op);
+        $this->assertSame($op, \Fam\Util\UserAgentParser::getInstance()->getUndefinedOperatingSystem());   
     }
     
     public function userAgentOsDataProvider()

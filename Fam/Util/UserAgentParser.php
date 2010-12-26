@@ -306,4 +306,21 @@ class UserAgentParser
     {
         return $this->operatingSystems;
     }
+
+    /**
+     *
+     * @return \Fam\Util\UserAgentParser\OperatingSystem
+     */
+    public function getUndefinedOperatingSystem()
+    {
+        return $this->undefinedOperatingSystem;
+    }
+
+    /**
+     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
+     */
+    public function setUndefinedOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
+    {
+        $this->undefinedOperatingSystem = $operatingSystem;
+    }
 }
