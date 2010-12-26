@@ -14,6 +14,11 @@ declare(encoding="UTF-8");
 
 namespace Fam\Util;
 
+require_once __DIR__ . '/UserAgentParser/Windows.php';
+require_once __DIR__ . '/UserAgentParser/Macintosh.php';
+require_once __DIR__ . '/UserAgentParser/Unix.php';
+require_once __DIR__ . '/UserAgentParser/UndefinedOperatingSystem.php';
+
 /**
  * A lightweight and fast browser detector
  *
@@ -49,9 +54,9 @@ class UserAgentParser
      *
      * @var string
      */
-    const OS_UNDEFINED = null;
-    const OS_WIN       = 'win';
-    const OS_MAC       = 'mac';
+    const OS_UNDEFINED = 'undefined';
+    const OS_WIN       = 'windows';
+    const OS_MAC       = 'macintosh';
     const OS_UNIX      = 'unix';
     /**#@-*/
 
@@ -69,11 +74,10 @@ class UserAgentParser
     /**#@-*/
 
     /**
-     * @var string
-     * @see UserAgentParser::WEBCLIENT_*
+     * @var \Fam\Util\UserAgentParser\OperatingSystem
      */
     protected $webClient = null;
-    
+
     /**
      * @var string
      * @see UserAgentParser::OS_*
@@ -97,9 +101,31 @@ class UserAgentParser
      */
     protected static $self = null;
 
+    /**
+     * @var array
+     */
+    private $operatingSystems = array();
+
+    /**
+     * @var \Fam\Util\UserAgentParser\OperatingSystem
+     */
+    private $undefinedOperatingSystem;
+
     protected function __construct()
     {
+        $this->initializeCommonOperatingSystems();
         $this->parseUserAgent();
+    }
+
+    private function initializeCommonOperatingSystems()
+    {
+        $this->operatingSystems = array(
+            new UserAgentParser\Windows(),
+            new UserAgentParser\Macintosh(),
+            new UserAgentParser\Unix(),
+        );
+
+        $this->undefinedOperatingSystem = new UserAgentParser\UndefinedOperatingSystem();
     }
 
     protected function parseUserAgent()
@@ -112,34 +138,13 @@ class UserAgentParser
 
     protected function parseOs()
     {
-        switch (true) {
-            case preg_match('/windows/i', $this->userAgent):
-            case preg_match('/win98/i', $this->userAgent):
-            case preg_match('/win95/i', $this->userAgent):
-            case preg_match('/win 9x/i', $this->userAgent):
-                $this->osClient = self::OS_WIN;;
+        foreach ($this->operatingSystems as $currentOs) {
+            if ($currentOs->match($this->userAgent)) {
+                $this->osClient = $currentOs;
                 return;
-
-            case preg_match('/Mac_PowerPC/i', $this->userAgent):
-            case preg_match('/Mac OS X/i', $this->userAgent):
-            case preg_match('/Macintosh/i', $this->userAgent):
-                $this->osClient = self::OS_MAC;
-                return;
-
-            case preg_match('/Linux/i', $this->userAgent):
-            case preg_match('/FreeBSD/i', $this->userAgent):
-            case preg_match('/NetBSD/i', $this->userAgent):
-            case preg_match('/OpenBSD/i', $this->userAgent):
-            case preg_match('/IRIX/i', $this->userAgent):
-            case preg_match('/SunOS/i', $this->userAgent):
-            case preg_match('/Unix/i', $this->userAgent):
-                $this->osClient = self::OS_UNIX;
-                return;
-
-            default:
-                $this->osClient = self::OS_UNDEFINED;
-                return;
+            }
         }
+        $this->osClient = $this->undefinedOperatingSystem;
     }
 
     protected function parseWebClient()
@@ -208,7 +213,7 @@ class UserAgentParser
      */
     public static function os()
     {
-        return self::getInstance()->osClient;
+        return self::getInstance()->osClient->getName();
     }
 
     /**
@@ -218,7 +223,7 @@ class UserAgentParser
      */
     public static function isOs($os)
     {
-        return self::os() === $os;
+        return self::getInstance()->osClient->equals($os);
     }
     
     /**
@@ -268,5 +273,37 @@ class UserAgentParser
     public static function isWebClientVersion($v)
     {
         return self::webClientVersion() === (float)$v;
+    }
+
+    /**
+     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
+     */
+    public function addOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
+    {
+        $this->operatingSystems[get_class($operatingSystem)] = $operatingSystem;
+    }
+
+    /**
+     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
+     */
+    public function removeOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
+    {
+        $this->removeOperatingSystemByClassName(get_class($operatingSystem));
+    }
+
+    /**
+     * @param string $operatingSystem
+     */
+    public function removeOperatingSystemByClassName($operatingSystem)
+    {
+        unset($this->operatingSystems[$operatingSystem]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getOperatingSystems()
+    {
+        return $this->operatingSystems;
     }
 }
