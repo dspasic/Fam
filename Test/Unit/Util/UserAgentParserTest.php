@@ -19,16 +19,6 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
     
     /**
      * @test
-     * @dataProvider userAgentOsDataProvider
-     */
-    public function detectOs($userAgent, $expectedOs)
-    {
-        putenv("HTTP_USER_AGENT=" . $userAgent);
-        $this->assertEquals($expectedOs, \Fam\Util\UserAgentParser::os());
-    }
-    
-    /**
-     * @test
      * @dataProvider userAgentWebClientDataProvider
      */
     public function detectWebClient($userAgent, $expectedWebClient)
@@ -53,22 +43,6 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertEquals(6.0, \Fam\Util\UserAgentParser::webClientVersion());
-    }
-    
-    /**
-     * @test
-     */
-    public function isOs()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertTrue(
-            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_WIN),
-            'Expected OS is WIN'
-        );
-        $this->assertFalse(
-            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_UNDEFINED),
-            'Not exptected OS undefined'
-        );
     }
     
     /**
@@ -199,79 +173,87 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         \Fam\Util\UserAgentParser::getInstance()->setUndefinedOperatingSystem($op);
         $this->assertSame($op, \Fam\Util\UserAgentParser::getInstance()->getUndefinedOperatingSystem());   
     }
-    
-    public function userAgentOsDataProvider()
+
+    /**
+     * @test
+     * @depends removeOperatingSystem
+     * @depends addOperatingSystem
+     */
+    public function detectOs_WithValidOperatingSystem()
     {
-        return array(
-            array(
-            	"Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c", 
-                \Fam\Util\UserAgentParser::OS_UNDEFINED,
-            ),
-            
-            array(
-                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-                \Fam\Util\UserAgentParser::OS_WIN,
-            ),
-            
-            array(
-                "Mozilla/4.0 (compatible; MSIE 6.0; win98 5.0)",
-                \Fam\Util\UserAgentParser::OS_WIN,
-            ),
-            
-            array(
-                "Mozilla/4.0 (compatible; MSIE 6.0; win95 5.0)",
-                \Fam\Util\UserAgentParser::OS_WIN,
-            ),
-            
-            array(
-                "Mozilla/4.0 (compatible; MSIE 6.0; win 9x 5.0)",
-                \Fam\Util\UserAgentParser::OS_WIN,
-            ),
-            
-            array(
-                "Mozilla/5.0 (Mac_PowerPC; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-                \Fam\Util\UserAgentParser::OS_MAC,
-            ),
-            
-            array(
-                "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-                \Fam\Util\UserAgentParser::OS_MAC,
-            ),
-            
-            array(
-                "Mozilla/5.0 (Mac OS X; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-                \Fam\Util\UserAgentParser::OS_MAC,
-            ),
-            
-            array(
-                "Mozilla/5.0 (compatible; Konqueror/3.2; Linux 2.6.2) (KHTML, like Gecko)",
-                \Fam\Util\UserAgentParser::OS_UNIX,
-            ),
-            
-            array(
-                "Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD 2.6) (KHTML, like Gecko)",
-                \Fam\Util\UserAgentParser::OS_UNIX,
-            ),
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
 
-            array(
-                "Mozilla/5.0 (compatible; Konqueror/3.2; NetBSD 2.6) (KHTML, like Gecko)",
-                \Fam\Util\UserAgentParser::OS_UNIX,
-            ),
+        $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
 
-            array(
-                "Mozilla/5.0 (compatible; Konqueror/3.2; IRIX 2.6) (KHTML, like Gecko)",
-                \Fam\Util\UserAgentParser::OS_UNIX,
-            ),
-            
-            array(
-                "Mozilla/5.0 (compatible; Konqueror/3.2; SunOS 2.6) (KHTML, like Gecko)",
-                \Fam\Util\UserAgentParser::OS_UNIX,
-            ),
-            
-            array(
-                "Mozilla/5.0 (compatible; Konqueror/3.2; Unix 2.6) (KHTML, like Gecko)",
-                \Fam\Util\UserAgentParser::OS_UNIX,
-            ),
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllOperatingSystems($subject);
+
+        $op->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $op->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue(__CLASS__));
+
+        $subject->addOperatingSystem($op);
+        $subject->parseUserAgent();
+
+        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::os());
+    }
+
+    /**
+     * @test
+     * @depends removeOperatingSystem
+     * @depends addOperatingSystem
+     * @depends setGetUndefinedOperatingSystem
+     */
+    public function detectOs_WithUndefinedOperatingSystem()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+
+        $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+        $undefinedOp = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+
+        $op->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(false));
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllOperatingSystems($subject);
+        $subject->addOperatingSystem($op);
+
+        $undefinedOp->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue(__CLASS__));
+
+        $subject->setUndefinedOperatingSystem($undefinedOp);
+
+        $subject->parseUserAgent();
+
+        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::os());
+    }
+
+    private function removeAllOperatingSystems(\Fam\Util\UserAgentParser $userAgentParser)
+    {
+        foreach ($userAgentParser->getOperatingSystems() as $currentOs) {
+            $userAgentParser->removeOperatingSystem($currentOs);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function isOs()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $this->assertTrue(
+            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_WIN),
+            'Expected OS is WIN'
+        );
+        $this->assertFalse(
+            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_UNDEFINED),
+            'Not exptected OS undefined'
         );
     }
     

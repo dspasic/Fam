@@ -119,16 +119,14 @@ class UserAgentParser
 
     private function initializeCommonOperatingSystems()
     {
-        $this->operatingSystems = array(
-            new UserAgentParser\Windows(),
-            new UserAgentParser\Macintosh(),
-            new UserAgentParser\Unix(),
-        );
+        $this->addOperatingSystem(new UserAgentParser\Windows());
+        $this->addOperatingSystem(new UserAgentParser\Macintosh());
+        $this->addOperatingSystem(new UserAgentParser\Unix());
 
         $this->undefinedOperatingSystem = new UserAgentParser\UndefinedOperatingSystem();
     }
 
-    protected function parseUserAgent()
+    public function parseUserAgent()
     {
         if (false === ($this->userAgent = getenv("HTTP_USER_AGENT"))) return;
 

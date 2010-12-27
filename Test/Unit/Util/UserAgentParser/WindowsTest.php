@@ -19,10 +19,11 @@ class Fam_Util_UserAgentParser_WindowsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider userAgentOsDataProvider
      */
-    public function match_WithValidValue()
+    public function match_WithValidValue($userAgent)
     {
-        $this->assertTrue($this->subject->match("Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"));
+        $this->assertTrue($this->subject->match($userAgent));
     }
 
     /**
@@ -39,5 +40,26 @@ class Fam_Util_UserAgentParser_WindowsTest extends PHPUnit_Framework_TestCase
     public function getName_returnsWindows()
     {
         $this->assertEquals("windows", $this->subject->getName());
+    }
+
+    public function userAgentOsDataProvider()
+    {
+        return array(
+            array(
+                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+            ),
+
+            array(
+                "Mozilla/4.0 (compatible; MSIE 6.0; win98 5.0)",
+            ),
+
+            array(
+                "Mozilla/4.0 (compatible; MSIE 6.0; win95 5.0)",
+            ),
+
+            array(
+                "Mozilla/4.0 (compatible; MSIE 6.0; win 9x 5.0)",
+            ),
+        );
     }
 }

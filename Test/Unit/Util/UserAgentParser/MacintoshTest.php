@@ -19,12 +19,11 @@ class Fam_Util_UserAgentParser_MacintoshTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider userAgentOsDataProvider
      */
-    public function match_WithValidValue()
+    public function match_WithValidValue($userAgent)
     {
-        $this->assertTrue($this->subject->match(
-            "Mozilla/5.0 (Mac OS X; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8"
-        ));
+        $this->assertTrue($this->subject->match($userAgent));
     }
 
     /**
@@ -42,4 +41,22 @@ class Fam_Util_UserAgentParser_MacintoshTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals("macintosh", $this->subject->getName());
     }
+
+    public function userAgentOsDataProvider()
+    {
+        return array(
+            array(
+                "Mozilla/5.0 (Mac_PowerPC; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
+            ),
+
+            array(
+                "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
+            ),
+
+            array(
+                "Mozilla/5.0 (Mac OS X; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
+            ),
+        );
+    }
+    
 }

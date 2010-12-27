@@ -19,12 +19,11 @@ class Fam_Util_UserAgentParser_UnixTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider userAgentOsDataProvider
      */
-    public function match_WithValidValue()
+    public function match_WithValidValue($userAgent)
     {
-        $this->assertTrue($this->subject->match(
-            "Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD 2.6) (KHTML, like Gecko)"
-        ));
+        $this->assertTrue($this->subject->match($userAgent));
     }
 
     /**
@@ -41,5 +40,34 @@ class Fam_Util_UserAgentParser_UnixTest extends PHPUnit_Framework_TestCase
     public function getName_returnsUnix()
     {
         $this->assertEquals("unix", $this->subject->getName());
+    }
+
+    public function userAgentOsDataProvider()
+    {
+        return array(
+            array(
+                "Mozilla/5.0 (compatible; Konqueror/3.2; Linux 2.6.2) (KHTML, like Gecko)",
+            ),
+
+            array(
+                "Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD 2.6) (KHTML, like Gecko)",
+            ),
+
+            array(
+                "Mozilla/5.0 (compatible; Konqueror/3.2; NetBSD 2.6) (KHTML, like Gecko)",
+            ),
+
+            array(
+                "Mozilla/5.0 (compatible; Konqueror/3.2; IRIX 2.6) (KHTML, like Gecko)",
+            ),
+
+            array(
+                "Mozilla/5.0 (compatible; Konqueror/3.2; SunOS 2.6) (KHTML, like Gecko)",
+            ),
+
+            array(
+                "Mozilla/5.0 (compatible; Konqueror/3.2; Unix 2.6) (KHTML, like Gecko)",
+            ),
+        );
     }
 }
