@@ -284,11 +284,6 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
                 "Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9",
                 \Fam\Util\UserAgentParser::WEBCLIENT_OP,
             ),
-            
-            array(
-                "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20060127 Netscape/8.1",
-                \Fam\Util\UserAgentParser::WEBCLIENT_NS,
-            ),
         );
     }
 }

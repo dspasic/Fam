@@ -176,11 +176,6 @@ class UserAgentParser
                 $this->webClient        = self::WEBCLIENT_OP;
                 return;
 
-            case preg_match('#Netscape[0-9]?/([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
-                $this->webClientVersion = (float)$matches[1];
-                $this->webClient        = self::WEBCLIENT_NS;
-                return;
-
             default:
                 $this->webClientVersion = $undefined->getVersion();
                 $this->webClient        = self::WEBCLIENT_UNDEFINED;
