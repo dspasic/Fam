@@ -6,7 +6,7 @@ class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends PHPUnit_Frame
 {
     /**
      *
-     * @var \Fam\Util\UserAgentParser\Unix
+     * @var Fam_Util_UserAgentParser_MockOperatingSystem
      */
     private $subject;
 
