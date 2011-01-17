@@ -152,10 +152,11 @@ class UserAgentParser
         $firefox = new UserAgentParser\Firefox();
         $opera = new UserAgentParser\Opera();
         $safari = new UserAgentParser\Safari();
+        $ie = new UserAgentParser\InternetExplorer();
         
         switch (true) {
-            case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
-                $this->webClientVersion = (float)$matches[1];
+            case $ie->match($this->userAgent):
+                $this->webClientVersion = (float)$ie->getVersion();
                 $this->webClient        = self::WEBCLIENT_IE;
                 return;
 
