@@ -182,7 +182,7 @@ class UserAgentParser
                 return;
 
             default:
-                $this->webClientVersion = self::WEBCLIENT_UNDEFINED;
+                $this->webClientVersion = $undefined->getVersion();
                 $this->webClient        = self::WEBCLIENT_UNDEFINED;
                 return;
         }
