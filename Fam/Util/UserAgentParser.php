@@ -19,6 +19,8 @@ require_once __DIR__ . '/UserAgentParser/Macintosh.php';
 require_once __DIR__ . '/UserAgentParser/Unix.php';
 require_once __DIR__ . '/UserAgentParser/UndefinedOperatingSystem.php';
 
+require_once __DIR__ . '/UserAgentParser/Firefox.php';
+
 /**
  * A lightweight and fast browser detector
  *
@@ -147,14 +149,16 @@ class UserAgentParser
 
     protected function parseWebClient()
     {
+        $firefox = new UserAgentParser\Firefox();
+        
         switch (true) {
             case preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
                 $this->webClientVersion = (float)$matches[1];
                 $this->webClient        = self::WEBCLIENT_IE;
                 return;
 
-            case preg_match('#(Firefox|Phoenix|Firebird)/([a-zA-Z0-9.]+)#i', $this->userAgent, $matches):
-                $this->webClientVersion = (float)$matches[2];
+            case $firefox->match($this->userAgent):
+                $this->webClientVersion = (float)$firefox->getVersion();
                 $this->webClient        = self::WEBCLIENT_FF;
                 return;
 
