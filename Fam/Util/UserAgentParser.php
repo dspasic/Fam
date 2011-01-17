@@ -153,6 +153,7 @@ class UserAgentParser
         $opera = new UserAgentParser\Opera();
         $safari = new UserAgentParser\Safari();
         $ie = new UserAgentParser\InternetExplorer();
+        $undefined = new UserAgentParser\UndefinedWebClient();
         
         switch (true) {
             case $ie->match($this->userAgent):
