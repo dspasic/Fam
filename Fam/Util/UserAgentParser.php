@@ -106,13 +106,24 @@ class UserAgentParser
     private $operatingSystems = array();
 
     /**
+     * @var array
+     */
+    private $webClients = array();
+
+    /**
      * @var \Fam\Util\UserAgentParser\OperatingSystem
      */
     private $undefinedOperatingSystem;
 
+    /**
+     * @var \Fam\Util\UserAgentParser\OperatingSystem
+     */
+    private $undefinedWebClient;
+
     protected function __construct()
     {
         $this->initializeCommonOperatingSystems();
+        $this->initializeCommonWebClients();
         $this->parseUserAgent();
     }
 
@@ -123,6 +134,16 @@ class UserAgentParser
         $this->addOperatingSystem(new UserAgentParser\Unix());
 
         $this->undefinedOperatingSystem = new UserAgentParser\UndefinedOperatingSystem();
+    }
+
+    private function initializeCommonWebClients()
+    {
+        $this->webClients[] = new UserAgentParser\Firefox();
+        $this->webClients[] = new UserAgentParser\Opera();
+        $this->webClients[] = new UserAgentParser\Safari();
+        $this->webClients[] = new UserAgentParser\InternetExplorer();
+
+        $this->undefinedWebClient = new UserAgentParser\UndefinedWebClient();
     }
 
     public function parseUserAgent()
@@ -146,34 +167,13 @@ class UserAgentParser
 
     protected function parseWebClient()
     {
-        $firefox = new UserAgentParser\Firefox();
-        $opera = new UserAgentParser\Opera();
-        $safari = new UserAgentParser\Safari();
-        $ie = new UserAgentParser\InternetExplorer();
-        $undefined = new UserAgentParser\UndefinedWebClient();
-        
-        switch (true) {
-            case $ie->match($this->userAgent):
-                $this->webClient = $ie;
+        foreach ($this->webClients as $currentWebClient) {
+            if ($currentWebClient->match($this->userAgent)) {
+                $this->webClient = $currentWebClient;
                 return;
-
-            case $firefox->match($this->userAgent):
-                $this->webClient = $firefox;
-                return;
-
-            case $safari->match($this->userAgent):
-                $this->webClient = $safari;
-                return;
-
-            case $opera->match($this->userAgent):
-                $this->webClient = $opera;
-                return;
-
-            default:
-                $this->webClientVersion = $undefined->getVersion();
-                $this->webClient = $undefined;
-                return;
+            }
         }
+        $this->webClient = $this->undefinedWebClient;
     }
 
     /**
