@@ -138,10 +138,10 @@ class UserAgentParser
 
     private function initializeCommonWebClients()
     {
-        $this->webClients[] = new UserAgentParser\Firefox();
-        $this->webClients[] = new UserAgentParser\Opera();
-        $this->webClients[] = new UserAgentParser\Safari();
-        $this->webClients[] = new UserAgentParser\InternetExplorer();
+        $this->addWebClient(new UserAgentParser\Firefox());
+        $this->addWebClient(new UserAgentParser\Opera());
+        $this->addWebClient(new UserAgentParser\Safari());
+        $this->addWebClient(new UserAgentParser\InternetExplorer());
 
         $this->undefinedWebClient = new UserAgentParser\UndefinedWebClient();
     }
@@ -316,5 +316,54 @@ class UserAgentParser
     public function setUndefinedOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
     {
         $this->undefinedOperatingSystem = $operatingSystem;
+    }
+
+    /**
+     * @param \Fam\Util\UserAgentParser\WebClient $webClient
+     */
+    public function addWebClient(\Fam\Util\UserAgentParser\WebClient $webClient)
+    {
+        $this->webClients[get_class($webClient)] = $webClient;
+    }
+
+    /**
+     * @param \Fam\Util\UserAgentParser\WebClient $webClient
+     */
+    public function removeWebClient(\Fam\Util\UserAgentParser\WebClient $webClient)
+    {
+        $this->removeWebClientByClassName(get_class($webClient));
+    }
+
+    /**
+     * @param string $webClient
+     */
+    public function removeWebClientByClassName($webClient)
+    {
+        unset($this->webClients[$webClient]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getWebClients()
+    {
+        return $this->webClients;
+    }
+
+    /**
+     *
+     * @return \Fam\Util\UserAgentParser\WebClient
+     */
+    public function getUndefinedWebClient()
+    {
+        return $this->undefinedWebClient;
+    }
+
+    /**
+     * @param \Fam\Util\UserAgentParser\WebClient $operatingSystem
+     */
+    public function setUndefinedWebClient(\Fam\Util\UserAgentParser\WebClient $webClient)
+    {
+        $this->undefinedWebClient = $webClient;
     }
 }

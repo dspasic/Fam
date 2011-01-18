@@ -256,6 +256,65 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
             'Not exptected OS undefined'
         );
     }
+
+    /**
+     * @test
+     */
+    public function getWebClient()
+    {
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+    }
+
+    /**
+     * @test
+     */
+    public function addWebClient()
+    {
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+        \Fam\Util\UserAgentParser::getInstance()->addWebClient($wc);
+
+        $this->assertEquals(5, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+    }
+
+    /**
+     * @test
+     */
+    public function removeWebClient()
+    {
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        \Fam\Util\UserAgentParser::getInstance()->addWebClient($wc);
+        $this->assertEquals(5, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+
+        \Fam\Util\UserAgentParser::getInstance()->removeWebClient($wc);
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+    }
+
+    /**
+     * @test
+     */
+    public function removeWebClientByClassName()
+    {
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        \Fam\Util\UserAgentParser::getInstance()->addWebClient($wc);
+        $this->assertEquals(5, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+
+        \Fam\Util\UserAgentParser::getInstance()->removeWebClientByClassName(get_class($wc));
+        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+    }
+
+    /**
+     * @test
+     */
+    public function setGetUndefinedWebClient()
+    {
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+        \Fam\Util\UserAgentParser::getInstance()->setUndefinedWebClient($wc);
+        $this->assertSame($wc, \Fam\Util\UserAgentParser::getInstance()->getUndefinedWebClient());
+    }
     
     public function userAgentWebClientDataProvider()
     {
