@@ -16,103 +16,6 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         \Fam\Util\UserAgentParser::restoreInstance();
         putenv("HTTP_USER_AGENT=" . $this->originHttpUserAgent);
     }
-    
-    /**
-     * @test
-     * @dataProvider userAgentWebClientDataProvider
-     */
-    public function detectWebClient($userAgent, $expectedWebClient)
-    {
-        putenv("HTTP_USER_AGENT=" . $userAgent);
-        $this->assertEquals($expectedWebClient, \Fam\Util\UserAgentParser::webClient());
-    }
-    
-    /**
-     * @test
-     */
-    public function webClientVersion_withUndefinedUserAgent()
-    {
-        putenv("HTTP_USER_AGENT=Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c");
-        $this->assertEquals(\Fam\Util\UserAgentParser::WEBCLIENT_UNDEFINED, \Fam\Util\UserAgentParser::webClientVersion());
-    }
-
-    /**
-     * @test
-     */
-    public function webClientVersion_withMSIE_60()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertEquals(6.0, \Fam\Util\UserAgentParser::webClientVersion());
-    }
-    
-    /**
-     * @test
-     */
-    public function isWebClient()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertTrue(
-            \Fam\Util\UserAgentParser::isWebClient(\Fam\Util\UserAgentParser::WEBCLIENT_IE),
-            'Expected web client is IE'
-        );
-        $this->assertFalse(
-            \Fam\Util\UserAgentParser::isWebClient(\Fam\Util\UserAgentParser::WEBCLIENT_FF),
-            'Not exptected web client FireFox'
-        );
-    }
-    
-    /**
-     * @test
-     */
-    public function isWebClientVersion()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertTrue(
-            \Fam\Util\UserAgentParser::isWebClientVersion('6.0'),
-            'Expected matching with version 6.0'
-        );
-        
-        $this->assertFalse(
-            \Fam\Util\UserAgentParser::isWebClientVersion('8.0'),
-            'Not expected version of 8.0'
-        );
-    }
-    
-    /**
-     * @test
-     */
-    public function isWebClientVersionBetween()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertTrue(
-            \Fam\Util\UserAgentParser::isWebClientVersionBetween(4, 7),
-            'Expcted a range between 4 and 7'
-        );
-    }
-    
-    /**
-     * @test
-     */
-    public function isWebClientVersionBetween_notValidWithLowerThan()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertFalse(
-            \Fam\Util\UserAgentParser::isWebClientVersionBetween(4, 5),
-            'Expcted a out of range between 4 and 5'
-        );
-    }
-    
-    /**
-     * @test
-     */
-    public function isWebClientVersionBetween_notValidWithGreaterThan()
-    {
-        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
-        $this->assertFalse(
-            \Fam\Util\UserAgentParser::isWebClientVersionBetween(7, 8),
-            'Expcted a out of range between 7 and 8'
-        );
-    }
 
     /**
      * @test
@@ -315,34 +218,245 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         \Fam\Util\UserAgentParser::getInstance()->setUndefinedWebClient($wc);
         $this->assertSame($wc, \Fam\Util\UserAgentParser::getInstance()->getUndefinedWebClient());
     }
-    
-    public function userAgentWebClientDataProvider()
+
+    /**
+     * @test
+     * @depends removeWebClient
+     * @depends addWebClient
+     */
+    public function detectWebClient_WithValidWebClient()
     {
-        return array(
-            array(
-                "Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c", 
-                \Fam\Util\UserAgentParser::WEBCLIENT_UNDEFINED,
-            ),
-            
-            array(
-                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-                \Fam\Util\UserAgentParser::WEBCLIENT_IE,
-            ),
-            
-            array(
-                "User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; de; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12",
-                \Fam\Util\UserAgentParser::WEBCLIENT_FF,
-            ),
-            
-            array(
-                "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-HK) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5",
-                \Fam\Util\UserAgentParser::WEBCLIENT_SAFARI,
-            ),
-            
-            array(
-                "Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9",
-                \Fam\Util\UserAgentParser::WEBCLIENT_OP,
-            ),
-        );
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue(__CLASS__));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::webClient());
+    }
+
+    /**
+     * @test
+     * @depends removeWebClient
+     * @depends setGetUndefinedWebClient
+     */
+    public function detectWebClient_WithInvalidWebClient()
+    {
+        putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->never())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue(__CLASS__));
+
+        $subject->setUndefinedWebClient($wc);
+        $subject->parseUserAgent();
+
+        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::webClient());
+    }
+
+    /**
+     * @test
+     */
+    public function webClientVersion()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('getVersion')
+            ->will($this->returnValue(__CLASS__));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::webClientVersion());
+    }
+
+    /**
+     * @test
+     */
+    public function isWebClientVersion_ExpectValidArgument()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('isVersionEquals')
+            ->with($this->equalTo(__CLASS__));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        \Fam\Util\UserAgentParser::isWebClientVersion(__CLASS__);
+    }
+
+    /**
+     * @test
+     */
+    public function isWebClientVersion_WillDelegateReturnValue()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('isVersionEquals')
+            ->will($this->returnValue(true));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        $this->assertTrue(\Fam\Util\UserAgentParser::isWebClientVersion(__CLASS__));
+    }
+
+    /**
+     * @test
+     */
+    public function isWebClientVersionBetween_WithExpectedAgrument()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('isVersionBetween')
+            ->with($this->equalTo(__CLASS__), $this->equalTo(__FUNCTION__));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        \Fam\Util\UserAgentParser::isWebClientVersionBetween(__CLASS__, __FUNCTION__);
+    }
+
+    /**
+     * @test
+     */
+    public function isWebClientVersionBetween_WillDelegateReturnValue()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('isVersionBetween')
+            ->will($this->returnValue(true));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        $this->assertTrue(\Fam\Util\UserAgentParser::isWebClientVersionBetween(__CLASS__, __FUNCTION__));
+    }
+
+    /**
+     * @test
+     */
+    public function isWebClient_WillDelegateReturnValue()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('isNameEquals')
+            ->will($this->returnValue(true));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        $this->assertTrue(\Fam\Util\UserAgentParser::isWebClient(__CLASS__));
+    }
+
+    /**
+     * @test
+     */
+    public function isWebClient_WithExpectedAgrument()
+    {
+        putenv("HTTP_USER_AGENT=" . __CLASS__);
+        $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+
+        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $this->removeAllWebClients($subject);
+
+        $wc->expects($this->once())
+            ->method('match')
+            ->will($this->returnValue(true));
+
+        $wc->expects($this->once())
+            ->method('isNameEquals')
+            ->with($this->equalTo(__CLASS__));
+
+        $subject->addWebClient($wc);
+        $subject->parseUserAgent();
+
+        \Fam\Util\UserAgentParser::isWebClient(__CLASS__);
+    }
+
+    private function removeAllWebClients(\Fam\Util\UserAgentParser $userAgentParser)
+    {
+        foreach ($userAgentParser->getWebClients() as $currentWc) {
+            $userAgentParser->removeWebClient($currentWc);
+        }
     }
 }
