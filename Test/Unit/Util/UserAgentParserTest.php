@@ -68,13 +68,13 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertTrue(
-            \Fam\Util\UserAgentParser::isWebClientVersion(6),
-            'Expected matching with version 6'
+            \Fam\Util\UserAgentParser::isWebClientVersion('6.0'),
+            'Expected matching with version 6.0'
         );
         
         $this->assertFalse(
-            \Fam\Util\UserAgentParser::isWebClientVersion(8),
-            'Not expected version of 8'
+            \Fam\Util\UserAgentParser::isWebClientVersion('8.0'),
+            'Not expected version of 8.0'
         );
     }
     

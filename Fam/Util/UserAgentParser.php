@@ -20,6 +20,10 @@ require_once __DIR__ . '/UserAgentParser/Unix.php';
 require_once __DIR__ . '/UserAgentParser/UndefinedOperatingSystem.php';
 
 require_once __DIR__ . '/UserAgentParser/Firefox.php';
+require_once __DIR__ . '/UserAgentParser/Safari.php';
+require_once __DIR__ . '/UserAgentParser/Opera.php';
+require_once __DIR__ . '/UserAgentParser/InternetExplorer.php';
+require_once __DIR__ . '/UserAgentParser/UndefinedWebClient.php';
 
 /**
  * A lightweight and fast browser detector
@@ -68,28 +72,21 @@ class UserAgentParser
      * @var string
      */
     const WEBCLIENT_UNDEFINED = null;
-    const WEBCLIENT_IE        = 'ie';
-    const WEBCLIENT_NS        = 'ns';
-    const WEBCLIENT_OP        = 'op';
-    const WEBCLIENT_FF        = 'ff';
+    const WEBCLIENT_IE        = 'internetexplorer';
+    const WEBCLIENT_OP        = 'opera';
+    const WEBCLIENT_FF        = 'firefox';
     const WEBCLIENT_SAFARI    = 'safari';
     /**#@-*/
 
     /**
-     * @var \Fam\Util\UserAgentParser\OperatingSystem
+     * @var \Fam\Util\UserAgentParser\WebClient
      */
     protected $webClient = null;
 
     /**
-     * @var string
-     * @see UserAgentParser::OS_*
+     * @var \Fam\Util\UserAgentParser\OperatingSystem
      */
     protected $osClient = null;
-    
-    /**
-     * @var int
-     */
-    protected $webClientVersion = null;
 
     /**
      * @var string
@@ -157,28 +154,24 @@ class UserAgentParser
         
         switch (true) {
             case $ie->match($this->userAgent):
-                $this->webClientVersion = (float)$ie->getVersion();
-                $this->webClient        = self::WEBCLIENT_IE;
+                $this->webClient = $ie;
                 return;
 
             case $firefox->match($this->userAgent):
-                $this->webClientVersion = (float)$firefox->getVersion();
-                $this->webClient        = self::WEBCLIENT_FF;
+                $this->webClient = $firefox;
                 return;
 
             case $safari->match($this->userAgent):
-                $this->webClientVersion = (float)$safari->getVersion();
-                $this->webClient        = self::WEBCLIENT_SAFARI;
+                $this->webClient = $safari;
                 return;
 
             case $opera->match($this->userAgent):
-                $this->webClientVersion = (float)$opera->getVersion();
-                $this->webClient        = self::WEBCLIENT_OP;
+                $this->webClient = $opera;
                 return;
 
             default:
                 $this->webClientVersion = $undefined->getVersion();
-                $this->webClient        = self::WEBCLIENT_UNDEFINED;
+                $this->webClient = $undefined;
                 return;
         }
     }
@@ -232,25 +225,25 @@ class UserAgentParser
      */
     public static function webClient()
     {
-        return self::getInstance()->webClient;
+        return self::getInstance()->webClient->getName();
     }
     
     /**
-     * @param string $wc The webclient to compare with
+     * @param string $webClient The webclient to compare with
      *
      * @return bool
      */
-    public static function isWebClient($wc)
+    public static function isWebClient($webClient)
     {
-        return self::webClient() === $wc;
+        return self::getInstance()->webClient->isNameEquals($webClient);
     }
 
     /**
-     * @return float
+     * @return string
      */
     public static function webClientVersion()
     {
-        return self::getInstance()->webClientVersion;
+        return self::getInstance()->webClient->getVersion();
     }
     
     /**
@@ -263,17 +256,17 @@ class UserAgentParser
      */
     public static function isWebClientVersionBetween($version1, $version2)
     {
-        return (self::webClientVersion() >= (float)$version1) && (self::webClientVersion() <= (float)$version2);
+        return self::getInstance()->webClient->isVersionBetween($version1, $version2);
     }
     
     /**
-     * @param float $v The version
+     * @param string $v The version
      *
      * @return bool
      */
     public static function isWebClientVersion($v)
     {
-        return self::webClientVersion() === (float)$v;
+        return self::getInstance()->webClient->isVersionEquals($v);
     }
 
     /**
