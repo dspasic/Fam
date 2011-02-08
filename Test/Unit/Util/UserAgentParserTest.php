@@ -13,7 +13,6 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        \Fam\Util\UserAgentParser::restoreInstance();
         putenv("HTTP_USER_AGENT=" . $this->originHttpUserAgent);
     }
 
@@ -22,7 +21,8 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function getOperatingSystem()
     {
-        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $subject = $this->createUserAgentParser();
+        $this->assertEquals(3, count($subject->getOperatingSystems()));
     }
 
     /**
@@ -30,12 +30,13 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function addOperatingSystem()
     {
-        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $subject = $this->createUserAgentParser();
+        $this->assertEquals(3, count($subject->getOperatingSystems()));
 
         $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
-        \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
+        $subject->addOperatingSystem($op);
 
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $this->assertEquals(4, count($subject->getOperatingSystems()));
     }
 
     /**
@@ -43,13 +44,14 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function removeOperatingSystem()
     {
+        $subject = $this->createUserAgentParser();
         $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
 
-        \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $subject->addOperatingSystem($op);
+        $this->assertEquals(4, count( $subject->getOperatingSystems()));
 
-        \Fam\Util\UserAgentParser::getInstance()->removeOperatingSystem($op);
-        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $subject->removeOperatingSystem($op);
+        $this->assertEquals(3, count($subject->getOperatingSystems()));
     }
 
 
@@ -58,13 +60,14 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function removeOperatingSystemByClassName()
     {
+        $subject = $this->createUserAgentParser();
         $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
 
-        \Fam\Util\UserAgentParser::getInstance()->addOperatingSystem($op);
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $subject->addOperatingSystem($op);
+        $this->assertEquals(4, count($subject->getOperatingSystems()));
 
-        \Fam\Util\UserAgentParser::getInstance()->removeOperatingSystemByClassName(get_class($op));
-        $this->assertEquals(3, count(\Fam\Util\UserAgentParser::getInstance()->getOperatingSystems()));
+        $subject->removeOperatingSystemByClassName(get_class($op));
+        $this->assertEquals(3, count($subject->getOperatingSystems()));
     }
 
     /**
@@ -72,9 +75,10 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function setGetUndefinedOperatingSystem()
     {
+        $subject = $this->createUserAgentParser();
         $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
-        \Fam\Util\UserAgentParser::getInstance()->setUndefinedOperatingSystem($op);
-        $this->assertSame($op, \Fam\Util\UserAgentParser::getInstance()->getUndefinedOperatingSystem());   
+        $subject->setUndefinedOperatingSystem($op);
+        $this->assertSame($op, $subject->getUndefinedOperatingSystem());   
     }
 
     /**
@@ -88,7 +92,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $this->createUserAgentParser();
         $this->removeAllOperatingSystems($subject);
 
         $op->expects($this->once())
@@ -102,7 +106,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addOperatingSystem($op);
         $subject->parseUserAgent();
 
-        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::os());
+        $this->assertEquals(__CLASS__, $subject->os());
     }
 
     /**
@@ -122,7 +126,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
             ->method('match')
             ->will($this->returnValue(false));
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $this->createUserAgentParser();
         $this->removeAllOperatingSystems($subject);
         $subject->addOperatingSystem($op);
 
@@ -134,7 +138,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $subject->parseUserAgent();
 
-        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::os());
+        $this->assertEquals(__CLASS__, $subject->os());
     }
 
     private function removeAllOperatingSystems(\Fam\Util\UserAgentParser $userAgentParser)
@@ -150,12 +154,13 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
     public function isOs()
     {
         putenv("HTTP_USER_AGENT=Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
+        $subject = $this->createUserAgentParser();
         $this->assertTrue(
-            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_WIN),
+            $subject->isOs(\Fam\Util\UserAgentParser::OS_WIN),
             'Expected OS is WIN'
         );
         $this->assertFalse(
-            \Fam\Util\UserAgentParser::isOs(\Fam\Util\UserAgentParser::OS_UNDEFINED),
+            $subject->isOs(\Fam\Util\UserAgentParser::OS_UNDEFINED),
             'Not exptected OS undefined'
         );
     }
@@ -165,7 +170,8 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function getWebClient()
     {
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $subject = $this->createUserAgentParser();
+        $this->assertEquals(4, count($subject->getWebClients()));
     }
 
     /**
@@ -173,12 +179,13 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function addWebClient()
     {
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $subject = $this->createUserAgentParser();
+        $this->assertEquals(4, count($subject->getWebClients()));
 
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
-        \Fam\Util\UserAgentParser::getInstance()->addWebClient($wc);
+        $subject->addWebClient($wc);
 
-        $this->assertEquals(5, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $this->assertEquals(5, count($subject->getWebClients()));
     }
 
     /**
@@ -186,13 +193,14 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function removeWebClient()
     {
+        $subject = $this->createUserAgentParser();
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        \Fam\Util\UserAgentParser::getInstance()->addWebClient($wc);
-        $this->assertEquals(5, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $subject->addWebClient($wc);
+        $this->assertEquals(5, count($subject->getWebClients()));
 
-        \Fam\Util\UserAgentParser::getInstance()->removeWebClient($wc);
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $subject->removeWebClient($wc);
+        $this->assertEquals(4, count($subject->getWebClients()));
     }
 
     /**
@@ -200,13 +208,14 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function removeWebClientByClassName()
     {
+        $subject = $this->createUserAgentParser();
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        \Fam\Util\UserAgentParser::getInstance()->addWebClient($wc);
-        $this->assertEquals(5, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $subject->addWebClient($wc);
+        $this->assertEquals(5, count($subject->getWebClients()));
 
-        \Fam\Util\UserAgentParser::getInstance()->removeWebClientByClassName(get_class($wc));
-        $this->assertEquals(4, count(\Fam\Util\UserAgentParser::getInstance()->getWebClients()));
+        $subject->removeWebClientByClassName(get_class($wc));
+        $this->assertEquals(4, count($subject->getWebClients()));
     }
 
     /**
@@ -214,9 +223,10 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
      */
     public function setGetUndefinedWebClient()
     {
+        $subject = $this->createUserAgentParser();
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
-        \Fam\Util\UserAgentParser::getInstance()->setUndefinedWebClient($wc);
-        $this->assertSame($wc, \Fam\Util\UserAgentParser::getInstance()->getUndefinedWebClient());
+        $subject->setUndefinedWebClient($wc);
+        $this->assertSame($wc, $subject->getUndefinedWebClient());
     }
 
     /**
@@ -230,7 +240,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -244,7 +254,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::webClient());
+        $this->assertEquals(__CLASS__, $subject->webClient());
     }
 
     /**
@@ -258,7 +268,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->never())
@@ -272,7 +282,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->setUndefinedWebClient($wc);
         $subject->parseUserAgent();
 
-        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::webClient());
+        $this->assertEquals(__CLASS__, $subject->webClient());
     }
 
     /**
@@ -284,7 +294,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -298,7 +308,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        $this->assertEquals(__CLASS__, \Fam\Util\UserAgentParser::webClientVersion());
+        $this->assertEquals(__CLASS__, $subject->webClientVersion());
     }
 
     /**
@@ -310,7 +320,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -324,7 +334,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        \Fam\Util\UserAgentParser::isWebClientVersion(__CLASS__);
+        $subject->isWebClientVersion(__CLASS__);
     }
 
     /**
@@ -336,7 +346,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
 
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -350,7 +360,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        $this->assertTrue(\Fam\Util\UserAgentParser::isWebClientVersion(__CLASS__));
+        $this->assertTrue($subject->isWebClientVersion(__CLASS__));
     }
 
     /**
@@ -361,7 +371,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         putenv("HTTP_USER_AGENT=" . __CLASS__);
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -375,7 +385,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        \Fam\Util\UserAgentParser::isWebClientVersionBetween(__CLASS__, __FUNCTION__);
+        $subject->isWebClientVersionBetween(__CLASS__, __FUNCTION__);
     }
 
     /**
@@ -386,7 +396,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         putenv("HTTP_USER_AGENT=" . __CLASS__);
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -400,7 +410,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        $this->assertTrue(\Fam\Util\UserAgentParser::isWebClientVersionBetween(__CLASS__, __FUNCTION__));
+        $this->assertTrue($subject->isWebClientVersionBetween(__CLASS__, __FUNCTION__));
     }
 
     /**
@@ -411,7 +421,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         putenv("HTTP_USER_AGENT=" . __CLASS__);
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -425,7 +435,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        $this->assertTrue(\Fam\Util\UserAgentParser::isWebClient(__CLASS__));
+        $this->assertTrue($subject->isWebClient(__CLASS__));
     }
 
     /**
@@ -436,7 +446,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         putenv("HTTP_USER_AGENT=" . __CLASS__);
         $wc = $this->getMock('\Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
 
-        $subject = \Fam\Util\UserAgentParser::getInstance();
+        $subject = $subject = $this->createUserAgentParser();
         $this->removeAllWebClients($subject);
 
         $wc->expects($this->once())
@@ -450,7 +460,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject->addWebClient($wc);
         $subject->parseUserAgent();
 
-        \Fam\Util\UserAgentParser::isWebClient(__CLASS__);
+        $subject->isWebClient(__CLASS__);
     }
 
     private function removeAllWebClients(\Fam\Util\UserAgentParser $userAgentParser)
@@ -458,5 +468,13 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         foreach ($userAgentParser->getWebClients() as $currentWc) {
             $userAgentParser->removeWebClient($currentWc);
         }
+    }
+    
+    /**
+     * @return \Fam\Util\UserAgentParser
+     */
+    private function createUserAgentParser()
+    {
+        return new \Fam\Util\UserAgentParser();
     }
 }
