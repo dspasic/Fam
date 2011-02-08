@@ -32,7 +32,7 @@ class UndefinedWebClient extends AbstractWebClient
      */
     public function getName()
     {
-        return null;
+        return "undefined";
     }
 
     /**

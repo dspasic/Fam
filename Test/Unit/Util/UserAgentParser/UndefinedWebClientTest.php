@@ -31,6 +31,6 @@ class Fam_Util_UserAgentParser_UndefinedWebClientTest extends PHPUnit_Framework_
      */
     public function getName_IsEqualsFirefox()
     {
-        $this->assertEquals(null, $this->subject->getName());
+        $this->assertEquals("undefined", $this->subject->getName());
     }
 }
