@@ -55,29 +55,6 @@ require_once __DIR__ . '/UserAgentParser/UndefinedWebClient.php';
  */
 class UserAgentParser
 {
-    /**#@+
-     * OS definitions
-     *
-     * @var string
-     */
-    const OS_UNDEFINED = 'undefined';
-    const OS_WIN       = 'windows';
-    const OS_MAC       = 'macintosh';
-    const OS_UNIX      = 'unix';
-    /**#@-*/
-
-    /**#@+
-     * webclient definitions
-     *
-     * @var string
-     */
-    const WEBCLIENT_UNDEFINED = null;
-    const WEBCLIENT_IE        = 'internetexplorer';
-    const WEBCLIENT_OP        = 'opera';
-    const WEBCLIENT_FF        = 'firefox';
-    const WEBCLIENT_SAFARI    = 'safari';
-    /**#@-*/
-
     /**
      * @var \Fam\Util\UserAgentParser\WebClient
      */

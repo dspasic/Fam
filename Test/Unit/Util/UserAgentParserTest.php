@@ -74,7 +74,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject = $this->createUserAgentParser();
         $op = $this->getMock('\Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
         $subject->setUndefinedOperatingSystem($op);
-        $this->assertSame($op, $subject->getUndefinedOperatingSystem());   
+        $this->assertSame($op, $subject->getUndefinedOperatingSystem());
     }
 
     /**
@@ -148,11 +148,11 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $subject = $this->createUserAgentParser();
         $subject->parseUserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0");
         $this->assertTrue(
-            $subject->isOs(\Fam\Util\UserAgentParser::OS_WIN),
+            $subject->isOs("windows"),
             'Expected OS is WIN'
         );
         $this->assertFalse(
-            $subject->isOs(\Fam\Util\UserAgentParser::OS_UNDEFINED),
+            $subject->isOs("undefined"),
             'Not exptected OS undefined'
         );
     }
@@ -447,7 +447,7 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
             $userAgentParser->removeWebClient($currentWc);
         }
     }
-    
+
     /**
      * @return \Fam\Util\UserAgentParser
      */
