@@ -92,7 +92,7 @@ class UserAgentParser
      * @var string
      */
     private $userAgent = null;
-    
+
     /**
      * a instance of UserAgentParser
      *
@@ -120,7 +120,7 @@ class UserAgentParser
      */
     private $undefinedWebClient;
 
-    protected function __construct()
+    public function __construct()
     {
         $this->initializeCommonOperatingSystems();
         $this->initializeCommonWebClients();
@@ -146,9 +146,12 @@ class UserAgentParser
         $this->undefinedWebClient = new UserAgentParser\UndefinedWebClient();
     }
 
-    public function parseUserAgent()
+    /**
+     * @param string $userAgent
+     */
+    public function parseUserAgent($userAgent = null)
     {
-        if (false === ($this->userAgent = getenv("HTTP_USER_AGENT"))) return;
+        $this->userAgent = $userAgent;
 
         $this->parseOs();
         $this->parseWebClient();
@@ -177,37 +180,11 @@ class UserAgentParser
     }
 
     /**
-     * override clone to deny the access
-     */
-    private function __clone() {}
-    
-    /**
-     * return alway the same instance of the class
-     *
-     * @return UserAgentParser
-     */
-    public static function getInstance()
-    {
-        if (false == (self::$self instanceof self)) {
-            self::$self = new self();
-        }
-        return self::$self;
-    }
-
-    /**
-     * Primary using for unittests
-     */
-    public static function restoreInstance()
-    {
-        self::$self = null;
-    }
-
-    /**
      * @return string
      */
-    public static function os()
+    public function os()
     {
-        return self::getInstance()->osClient->getName();
+        return $this->osClient->getName();
     }
 
     /**
@@ -215,37 +192,37 @@ class UserAgentParser
      *
      * @return bool
      */
-    public static function isOs($os)
+    public function isOs($os)
     {
-        return self::getInstance()->osClient->equals($os);
-    }
-    
-    /**
-     * @return string
-     */
-    public static function webClient()
-    {
-        return self::getInstance()->webClient->getName();
-    }
-    
-    /**
-     * @param string $webClient The webclient to compare with
-     *
-     * @return bool
-     */
-    public static function isWebClient($webClient)
-    {
-        return self::getInstance()->webClient->isNameEquals($webClient);
+        return $this->osClient->equals($os);
     }
 
     /**
      * @return string
      */
-    public static function webClientVersion()
+    public function webClient()
     {
-        return self::getInstance()->webClient->getVersion();
+        return $this->webClient->getName();
     }
-    
+
+    /**
+     * @param string $webClient The webclient to compare with
+     *
+     * @return bool
+     */
+    public function isWebClient($webClient)
+    {
+        return $this->webClient->isNameEquals($webClient);
+    }
+
+    /**
+     * @return string
+     */
+    public function webClientVersion()
+    {
+        return $this->webClient->getVersion();
+    }
+
     /**
      * Compares the version between two argugments
      *
@@ -254,19 +231,19 @@ class UserAgentParser
      *
      * @return bool
      */
-    public static function isWebClientVersionBetween($version1, $version2)
+    public function isWebClientVersionBetween($version1, $version2)
     {
-        return self::getInstance()->webClient->isVersionBetween($version1, $version2);
+        return $this->webClient->isVersionBetween($version1, $version2);
     }
-    
+
     /**
      * @param string $v The version
      *
      * @return bool
      */
-    public static function isWebClientVersion($v)
+    public function isWebClientVersion($v)
     {
-        return self::getInstance()->webClient->isVersionEquals($v);
+        return $this->webClient->isVersionEquals($v);
     }
 
     /**
