@@ -25,6 +25,8 @@ require_once __DIR__ . '/UserAgentParser/Opera.php';
 require_once __DIR__ . '/UserAgentParser/InternetExplorer.php';
 require_once __DIR__ . '/UserAgentParser/UndefinedWebClient.php';
 
+require_once __DIR__ . '/UserAgent.php';
+
 /**
  * A lightweight and fast browser detector
  *
@@ -125,6 +127,7 @@ class UserAgentParser
 
     /**
      * @param string $userAgent
+     * @return \Fam\Util\UserAgent
      */
     public function parseUserAgent($userAgent = null)
     {
@@ -132,6 +135,8 @@ class UserAgentParser
 
         $this->parseOs();
         $this->parseWebClient();
+
+        return new UserAgent($this->osClient, $this->webClient);
     }
 
     protected function parseOs()

@@ -23,7 +23,6 @@ namespace Fam\Util;
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    @@PACKAGE_VERSION@@
  */
-
 class UserAgent
 {
     /**
