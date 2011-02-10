@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../../../Fam/Util/UserAgent.php";
-require_once __DIR__ . "/../../../Fam/Util/UserAgentParser/OperatingSystem.php";
-require_once __DIR__ . "/../../../Fam/Util/UserAgentParser/WebClient.php";
+require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/UserAgent.php";
+require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/OperatingSystem.php";
+require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/WebClient.php";
 
-use \Fam\Util\UserAgent;
+use \Fam\Util\UserAgentParser\UserAgent;
 
-class Fam_Util_UserAgentTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_UserAgentTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @test

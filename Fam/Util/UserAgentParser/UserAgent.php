@@ -13,7 +13,7 @@
 
 declare(encoding='UTF-8');
 
-namespace Fam\Util;
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Prepresends a useragent
@@ -39,10 +39,8 @@ class UserAgent
      * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
      * @param \Fam\Util\UserAgentParser\WebClient $webClient
      */
-    public function __construct(
-        UserAgentParser\OperatingSystem $operatingSystem,
-        UserAgentParser\WebClient $webClient
-    ) {
+    public function __construct(OperatingSystem $operatingSystem, WebClient $webClient)
+    {
         $this->operatingSystem = $operatingSystem;
         $this->webClient = $webClient;
     }

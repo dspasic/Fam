@@ -25,7 +25,7 @@ require_once __DIR__ . '/UserAgentParser/Opera.php';
 require_once __DIR__ . '/UserAgentParser/InternetExplorer.php';
 require_once __DIR__ . '/UserAgentParser/UndefinedWebClient.php';
 
-require_once __DIR__ . '/UserAgent.php';
+require_once __DIR__ . '/UserAgentParser/UserAgent.php';
 
 /**
  * A lightweight and fast browser detector
@@ -84,9 +84,19 @@ class UserAgentParser
 
     public function __construct()
     {
-        $this->initializeCommonOperatingSystems();
-        $this->initializeCommonWebClients();
-        $this->parseUserAgent();
+        $this->undefinedOperatingSystem = new UserAgentParser\UndefinedOperatingSystem();
+        $this->undefinedWebClient = new UserAgentParser\UndefinedWebClient();
+    }
+
+    /**
+     * @return \Fam\Util\UserAgentParser
+     */
+    public static function createInstance()
+    {
+        $self = new static();
+        $self->initializeCommonOperatingSystems();
+        $self->initializeCommonWebClients();
+        return $self;
     }
 
     private function initializeCommonOperatingSystems()
@@ -94,8 +104,6 @@ class UserAgentParser
         $this->addOperatingSystem(new UserAgentParser\Windows());
         $this->addOperatingSystem(new UserAgentParser\Macintosh());
         $this->addOperatingSystem(new UserAgentParser\Unix());
-
-        $this->undefinedOperatingSystem = new UserAgentParser\UndefinedOperatingSystem();
     }
 
     private function initializeCommonWebClients()
@@ -104,18 +112,16 @@ class UserAgentParser
         $this->addWebClient(new UserAgentParser\Opera());
         $this->addWebClient(new UserAgentParser\Safari());
         $this->addWebClient(new UserAgentParser\InternetExplorer());
-
-        $this->undefinedWebClient = new UserAgentParser\UndefinedWebClient();
     }
 
     /**
      * @param string $userAgent
      * @return \Fam\Util\UserAgent
      */
-    public function parseUserAgent($userAgent = null)
+    public function parseUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
-        return new UserAgent($this->parseOs(), $this->parseWebClient());
+        return new UserAgentParser\UserAgent($this->parseOs(), $this->parseWebClient());
     }
 
     /**
