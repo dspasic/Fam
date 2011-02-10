@@ -73,13 +73,6 @@ class UserAgentParser
     private $userAgent = null;
 
     /**
-     * a instance of UserAgentParser
-     *
-     * @var UserAgentParser
-     */
-    protected static $self = null;
-
-    /**
      * @var array
      */
     private $operatingSystems = array();
@@ -139,93 +132,30 @@ class UserAgentParser
         return new UserAgent($this->osClient, $this->webClient);
     }
 
+    /**
+     * @return \Fam\Util\UserAgentParser\OperatingSystem
+     */
     protected function parseOs()
     {
         foreach ($this->operatingSystems as $currentOs) {
             if ($currentOs->match($this->userAgent)) {
-                $this->osClient = $currentOs;
-                return;
+                return $currentOs;
             }
         }
-        $this->osClient = $this->undefinedOperatingSystem;
+        return $this->undefinedOperatingSystem;
     }
 
+    /**
+     * @return \Fam\Util\UserAgentParser\WebClient
+     */
     protected function parseWebClient()
     {
         foreach ($this->webClients as $currentWebClient) {
             if ($currentWebClient->match($this->userAgent)) {
-                $this->webClient = $currentWebClient;
-                return;
+                return $currentWebClient;
             }
         }
-        $this->webClient = $this->undefinedWebClient;
-    }
-
-    /**
-     * @return string
-     */
-    public function os()
-    {
-        return $this->osClient->getName();
-    }
-
-    /**
-     * @param string $os The OS to compare with
-     *
-     * @return bool
-     */
-    public function isOs($os)
-    {
-        return $this->osClient->equals($os);
-    }
-
-    /**
-     * @return string
-     */
-    public function webClient()
-    {
-        return $this->webClient->getName();
-    }
-
-    /**
-     * @param string $webClient The webclient to compare with
-     *
-     * @return bool
-     */
-    public function isWebClient($webClient)
-    {
-        return $this->webClient->isNameEquals($webClient);
-    }
-
-    /**
-     * @return string
-     */
-    public function webClientVersion()
-    {
-        return $this->webClient->getVersion();
-    }
-
-    /**
-     * Compares the version between two argugments
-     *
-     * @param float $version1 The smaller value
-     * @param float $version2 The lager value
-     *
-     * @return bool
-     */
-    public function isWebClientVersionBetween($version1, $version2)
-    {
-        return $this->webClient->isVersionBetween($version1, $version2);
-    }
-
-    /**
-     * @param string $v The version
-     *
-     * @return bool
-     */
-    public function isWebClientVersion($v)
-    {
-        return $this->webClient->isVersionEquals($v);
+        return $this->undefinedWebClient;
     }
 
     /**
