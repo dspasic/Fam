@@ -58,16 +58,6 @@ require_once __DIR__ . '/UserAgent.php';
 class UserAgentParser
 {
     /**
-     * @var \Fam\Util\UserAgentParser\WebClient
-     */
-    protected $webClient = null;
-
-    /**
-     * @var \Fam\Util\UserAgentParser\OperatingSystem
-     */
-    protected $osClient = null;
-
-    /**
      * @var string
      */
     private $userAgent = null;
@@ -125,17 +115,13 @@ class UserAgentParser
     public function parseUserAgent($userAgent = null)
     {
         $this->userAgent = $userAgent;
-
-        $this->parseOs();
-        $this->parseWebClient();
-
-        return new UserAgent($this->osClient, $this->webClient);
+        return new UserAgent($this->parseOs(), $this->parseWebClient());
     }
 
     /**
      * @return \Fam\Util\UserAgentParser\OperatingSystem
      */
-    protected function parseOs()
+    private function parseOs()
     {
         foreach ($this->operatingSystems as $currentOs) {
             if ($currentOs->match($this->userAgent)) {
@@ -148,7 +134,7 @@ class UserAgentParser
     /**
      * @return \Fam\Util\UserAgentParser\WebClient
      */
-    protected function parseWebClient()
+    private function parseWebClient()
     {
         foreach ($this->webClients as $currentWebClient) {
             if ($currentWebClient->match($this->userAgent)) {
