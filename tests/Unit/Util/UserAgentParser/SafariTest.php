@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/Safari.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Safari.php";
 
 class Fam_Util_UserAgentParser_SafariTest extends PHPUnit_Framework_TestCase
 {

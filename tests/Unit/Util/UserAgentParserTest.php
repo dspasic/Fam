@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../Fam/Util/UserAgentParser.php";
+require_once __DIR__ . "/../../../src/Fam/Util/UserAgentParser.php";
 
 use Fam\Util\UserAgentParser;
 

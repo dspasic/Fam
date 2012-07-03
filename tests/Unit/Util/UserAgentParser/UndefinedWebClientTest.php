@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/UndefinedWebClient.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/UndefinedWebClient.php";
 
 class Fam_Util_UserAgentParser_UndefinedWebClientTest extends PHPUnit_Framework_TestCase
 {

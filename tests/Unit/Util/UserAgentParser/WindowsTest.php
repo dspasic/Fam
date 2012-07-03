@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/Windows.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Windows.php";
 
 class Fam_Util_UserAgentParser_WindowsTest extends PHPUnit_Framework_TestCase
 {

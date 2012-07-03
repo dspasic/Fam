@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/Firefox.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Firefox.php";
 
 class Fam_Util_UserAgentParser_FirefoxTest extends PHPUnit_Framework_TestCase
 {

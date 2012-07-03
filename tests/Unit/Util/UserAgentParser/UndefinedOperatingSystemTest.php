@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/UndefinedOperatingSystem.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/UndefinedOperatingSystem.php";
 
 class Fam_Util_UserAgentParser_UndefinedOperatingSystemTest extends PHPUnit_Framework_TestCase
 {

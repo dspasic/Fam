@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/UserAgent.php";
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/OperatingSystem.php";
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/WebClient.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/UserAgent.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/OperatingSystem.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/WebClient.php";
 
 use \Fam\Util\UserAgentParser\UserAgent;
 

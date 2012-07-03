@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/Opera.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Opera.php";
 
 class Fam_Util_UserAgentParser_OperaTest extends PHPUnit_Framework_TestCase
 {

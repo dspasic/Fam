@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/AbstractOperatingSystem.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/AbstractOperatingSystem.php";
 
 class Fam_Util_UserAgentParser_MockOperatingSystem extends \Fam\Util\UserAgentParser\AbstractOperatingSystem
 {

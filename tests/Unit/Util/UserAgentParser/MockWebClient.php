@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../../../../Fam/Util/UserAgentParser/AbstractWebClient.php";
+require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/AbstractWebClient.php";
 
 class Fam_Util_UserAgentParser_MockWebClient extends \Fam\Util\UserAgentParser\AbstractWebClient
 {
