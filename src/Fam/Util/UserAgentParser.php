@@ -10,7 +10,7 @@
  * @version    GIT: $Id:$
  */
 
-declare(encoding="UTF-8");
+
 
 namespace Fam\Util;
 
