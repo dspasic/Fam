@@ -36,7 +36,7 @@ interface OperatingSystem
 
     /**
      * @param string|Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     * 
+     *
      * @return boolean
      */
     public function equals($operatingSystem);

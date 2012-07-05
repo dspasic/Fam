@@ -42,4 +42,3 @@ class Firefox extends AbstractWebClient
         );
     }
 }
-

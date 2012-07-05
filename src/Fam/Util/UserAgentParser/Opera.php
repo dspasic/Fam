@@ -42,4 +42,3 @@ class Opera extends AbstractWebClient
         );
     }
 }
-

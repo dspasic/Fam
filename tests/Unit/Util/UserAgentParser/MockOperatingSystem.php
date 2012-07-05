@@ -16,4 +16,3 @@ class Fam_Util_UserAgentParser_MockOperatingSystem extends \Fam\Util\UserAgentPa
         return $this->name;
     }
 }
-

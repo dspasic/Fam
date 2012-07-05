@@ -55,7 +55,6 @@ class Fam_Util_UserAgentParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($this->subject->getOperatingSystems()));
     }
 
-
     /**
      * @test
      * @depends addOperatingSystem

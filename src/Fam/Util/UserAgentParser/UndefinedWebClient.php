@@ -40,4 +40,3 @@ class UndefinedWebClient extends AbstractWebClient
         return array();
     }
 }
-

@@ -40,9 +40,11 @@ abstract class AbstractWebClient implements WebClient
             $matches = array();
             if (preg_match($currentPattern, $userAgent, $matches)) {
                 $this->version = $matches[1];
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -63,11 +65,9 @@ abstract class AbstractWebClient implements WebClient
         $name = '';
         if ($webClient instanceof \Fam\Util\UserAgentParser\WebClient) {
             $name = $webClient->getName();
-        }
-        else if (is_string($webClient)) {
+        } elseif (is_string($webClient)) {
             $name = $webClient;
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException(
                 'Invalid argument given. Excpected argument are string or \Fam\Util\UserAgentParser\WebClient'
             );

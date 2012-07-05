@@ -42,4 +42,3 @@ class InternetExplorer extends AbstractWebClient
         );
     }
 }
-

@@ -34,7 +34,7 @@ class UserAgent
 
     /**
      * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     * @param \Fam\Util\UserAgentParser\WebClient $webClient
+     * @param \Fam\Util\UserAgentParser\WebClient       $webClient
      */
     public function __construct(OperatingSystem $operatingSystem, WebClient $webClient)
     {
@@ -51,7 +51,7 @@ class UserAgent
     }
 
     /**
-     * @param string|\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
+     * @param  string|\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
      * @return boolean
      */
     public function isOs($operatingSystem)
@@ -68,7 +68,7 @@ class UserAgent
     }
 
     /**
-     * @param string|\Fam\Util\UserAgentParser\WebClient $webClient
+     * @param  string|\Fam\Util\UserAgentParser\WebClient $webClient
      * @return boolean
      */
     public function isWebClient($webClient)
@@ -85,7 +85,7 @@ class UserAgent
     }
 
     /**
-     * @param string $webClientVersion
+     * @param  string  $webClientVersion
      * @return boolean
      */
     public function isWebClientVersion($webClientVersion)

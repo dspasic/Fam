@@ -42,4 +42,3 @@ class Safari extends AbstractWebClient
         );
     }
 }
-

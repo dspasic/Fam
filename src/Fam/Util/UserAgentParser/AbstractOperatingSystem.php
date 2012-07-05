@@ -36,6 +36,7 @@ abstract class AbstractOperatingSystem implements OperatingSystem
                 return true;
             }
         }
+
         return false;
     }
 
@@ -56,11 +57,9 @@ abstract class AbstractOperatingSystem implements OperatingSystem
         $name = '';
         if ($operatingSystem instanceof \Fam\Util\UserAgentParser\OperatingSystem) {
             $name = $operatingSystem->getName();
-        }
-        else if (is_string($operatingSystem)) {
+        } elseif (is_string($operatingSystem)) {
             $name = $operatingSystem;
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException(
                 'Invalid argument given. Excpected argument are string or \Fam\Util\UserAgentParser\OperatingSystem'
             );

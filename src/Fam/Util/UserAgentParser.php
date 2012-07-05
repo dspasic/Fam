@@ -93,6 +93,7 @@ class UserAgentParser
         $self = new static();
         $self->initializeCommonOperatingSystems();
         $self->initializeCommonWebClients();
+
         return $self;
     }
 
@@ -112,12 +113,13 @@ class UserAgentParser
     }
 
     /**
-     * @param string $userAgent
+     * @param  string              $userAgent
      * @return \Fam\Util\UserAgent
      */
     public function parseUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+
         return new UserAgentParser\UserAgent($this->parseOs(), $this->parseWebClient());
     }
 
@@ -131,6 +133,7 @@ class UserAgentParser
                 return $currentOs;
             }
         }
+
         return $this->undefinedOperatingSystem;
     }
 
@@ -144,6 +147,7 @@ class UserAgentParser
                 return $currentWebClient;
             }
         }
+
         return $this->undefinedWebClient;
     }
 

@@ -179,7 +179,7 @@ class Fam_Util_UserAgentParser_UserAgentTest extends PHPUnit_Framework_TestCase
     private function createOperatingSystemMock()
     {
         return $this->getMock(
-        	'Fam\Util\UserAgentParser\OperatingSystem',
+            'Fam\Util\UserAgentParser\OperatingSystem',
             array(),
             array(),
             '',
@@ -193,7 +193,7 @@ class Fam_Util_UserAgentParser_UserAgentTest extends PHPUnit_Framework_TestCase
     private function createWebClientMock()
     {
         return $this->getMock(
-        	'Fam\Util\UserAgentParser\WebClient',
+            'Fam\Util\UserAgentParser\WebClient',
             array(),
             array(),
             '',
