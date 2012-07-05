@@ -9,9 +9,6 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-
-
-
 namespace Fam\Util;
 
 require_once __DIR__ . '/UserAgentParser/Windows.php';

@@ -10,9 +10,6 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-
-
-
 namespace Fam\Util\UserAgentParser;
 
 require_once __DIR__ . '/AbstractWebClient.php';
