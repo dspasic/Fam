@@ -13,3 +13,4 @@ pdepend.xml
 pyramid.svg
 nbproject
 *.swp
+build
