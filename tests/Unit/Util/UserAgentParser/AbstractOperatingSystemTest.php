@@ -1,8 +1,10 @@
 <?php
 
+use Fam\Util\UserAgentParser\OperatingSystem;
+
 require_once __DIR__ . "/MockOperatingSystem.php";
 
-class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends \PHPUnit\Framework\TestCase
 {
     /**
      *
@@ -44,7 +46,7 @@ class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends PHPUnit_Frame
     /**
      * @test
      */
-    public function equals_WithVaildStringValue()
+    public function equals_WithValidStringValue()
     {
         $this->subject->name = "unix";
         $this->assertTrue($this->subject->equals("unix"));
@@ -65,7 +67,7 @@ class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends PHPUnit_Frame
     public function equals_WithValidOperatingSystem()
     {
         $this->subject->name = 'unix';
-        $op = $this->getMock('Fam\Util\UserAgentParser\OperatingSystem', array(), array(), '', false);
+        $op = $this->getMockBuilder(OperatingSystem::class)->getMock();
 
         $op->expects($this->once())
             ->method('getName')

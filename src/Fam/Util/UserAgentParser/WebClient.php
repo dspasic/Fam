@@ -10,6 +10,7 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
+
 namespace Fam\Util\UserAgentParser;
 
 /**
@@ -22,42 +23,20 @@ namespace Fam\Util\UserAgentParser;
  */
 interface WebClient
 {
+    public function match(string $userAgent): bool;
+
+    public function getName(): string;
+
     /**
-     * @param string $userAgent
+     * @param string|WebClient $webClient
      *
      * @return boolean
      */
-    public function match($userAgent);
+    public function isNameEquals($webClient): bool;
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getVersion(): string;
 
-    /**
-     * @param string|Fam\Util\UserAgentParser\WebClient $webClient
-     *
-     * @return boolean
-     */
-    public function isNameEquals($webClient);
+    public function isVersionEquals(string $version): bool;
 
-    /**
-     * @return string
-     */
-    public function getVersion();
-
-    /**
-     * @param string $version
-     *
-     * @return boolean
-     */
-    public function isVersionEquals($version);
-
-    /**
-     * @param string $lowerVersion
-     * @param string $greateVersion
-     *
-     * @return boolean
-     */
-    public function isVersionBetween($lowerVersion, $greaterVersion);
+    public function isVersionBetween(string $lowerVersion, string $greaterVersion): bool;
 }

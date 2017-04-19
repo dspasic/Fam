@@ -1,11 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Safari.php";
+use Fam\Util\UserAgentParser\Firefox;
 
-class Fam_Util_UserAgentParser_SafariTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_SafariTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Fam\Util\UserAgentParser\Firefox
+     * @var Firefox
      */
     private $subject;
 

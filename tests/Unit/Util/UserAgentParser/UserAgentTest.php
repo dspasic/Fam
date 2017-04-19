@@ -1,12 +1,10 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/UserAgent.php";
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/OperatingSystem.php";
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/WebClient.php";
+use Fam\Util\UserAgentParser\WebClient;
+use Fam\Util\UserAgentParser\OperatingSystem;
+use Fam\Util\UserAgentParser\UserAgent;
 
-use \Fam\Util\UserAgentParser\UserAgent;
-
-class Fam_Util_UserAgentParser_UserAgentTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_UserAgentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -178,13 +176,7 @@ class Fam_Util_UserAgentParser_UserAgentTest extends PHPUnit_Framework_TestCase
      */
     private function createOperatingSystemMock()
     {
-        return $this->getMock(
-            'Fam\Util\UserAgentParser\OperatingSystem',
-            array(),
-            array(),
-            '',
-            false
-        );
+        return $this->getMockBuilder(OperatingSystem::class)->getMock();
     }
 
     /**
@@ -192,12 +184,6 @@ class Fam_Util_UserAgentParser_UserAgentTest extends PHPUnit_Framework_TestCase
      */
     private function createWebClientMock()
     {
-        return $this->getMock(
-            'Fam\Util\UserAgentParser\WebClient',
-            array(),
-            array(),
-            '',
-            false
-        );
+        return $this->getMockBuilder(WebClient::class)->getMock();
     }
 }

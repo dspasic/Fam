@@ -12,10 +12,8 @@
  */
 namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/WebClient.php';
-
 /**
- * Base class for webclients
+ * Base class for web clients
  *
  * @package    Util
  * @subpackage UserAgentParser
@@ -29,12 +27,7 @@ abstract class AbstractWebClient implements WebClient
      */
     private $version = "";
 
-    /**
-     * @param string $userAgent
-     *
-     * @return boolean
-     */
-    public function match($userAgent)
+    public function match(string $userAgent): bool
     {
         foreach ($this->getPatterns() as $currentPattern) {
             $matches = array();
@@ -48,22 +41,19 @@ abstract class AbstractWebClient implements WebClient
         return false;
     }
 
-    /**
-     * @return array
-     */
-    abstract protected function getPatterns();
+    abstract protected function getPatterns(): array;
 
     /**
-     * @param string|Fam\Util\UserAgentParser\WebClient $webClient
+     * @param string|WebClient $webClient
      *
      * @return boolean
      *
      * @throws \InvalidArgumentException
      */
-    public function isNameEquals($webClient)
+    public function isNameEquals($webClient): bool
     {
         $name = '';
-        if ($webClient instanceof \Fam\Util\UserAgentParser\WebClient) {
+        if ($webClient instanceof WebClient) {
             $name = $webClient->getName();
         } elseif (is_string($webClient)) {
             $name = $webClient;
@@ -76,20 +66,12 @@ abstract class AbstractWebClient implements WebClient
         return strtoupper($this->getName()) === strtoupper($name);
     }
 
-    /**
-     * @return string
-     */
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    /**
-     * @param string $version
-     *
-     * @return boolean
-     */
-    public function isVersionEquals($version)
+    public function isVersionEquals(string $version): bool
     {
         return $this->getVersion() === $version;
     }
@@ -100,7 +82,7 @@ abstract class AbstractWebClient implements WebClient
      *
      * @return boolean
      */
-    public function isVersionBetween($lowerVersion, $greaterVersion)
+    public function isVersionBetween(string $lowerVersion, string $greaterVersion): bool
     {
         return version_compare($lowerVersion, $this->getVersion(), "<=")
             && version_compare($greaterVersion, $this->getVersion(), ">=");

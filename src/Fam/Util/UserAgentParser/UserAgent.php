@@ -10,10 +10,11 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
+
 namespace Fam\Util\UserAgentParser;
 
 /**
- * Prepresends a useragent
+ * Represents a user agent
  *
  * @package    Util
  * @subpackage UserAgentParser
@@ -23,83 +24,60 @@ namespace Fam\Util\UserAgentParser;
 class UserAgent
 {
     /**
-     * @var \Fam\Util\UserAgentParser\OperatingSystem
+     * @var OperatingSystem
      */
     private $operatingSystem;
 
     /**
-     * @var \Fam\Util\UserAgentParser\WebClient
+     * @var WebClient
      */
     private $webClient;
 
-    /**
-     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     * @param \Fam\Util\UserAgentParser\WebClient       $webClient
-     */
     public function __construct(OperatingSystem $operatingSystem, WebClient $webClient)
     {
         $this->operatingSystem = $operatingSystem;
         $this->webClient = $webClient;
     }
 
-    /**
-     * @return string
-     */
-    public function os()
+    public function os(): string
     {
         return $this->operatingSystem->getName();
     }
 
     /**
-     * @param  string|\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     * @return boolean
+     * @param  string|OperatingSystem $operatingSystem
+     * @return bool
      */
-    public function isOs($operatingSystem)
+    public function isOs($operatingSystem): bool
     {
         return $this->operatingSystem->equals($operatingSystem);
     }
 
-    /**
-     * @return string
-     */
-    public function webClient()
+    public function webClient(): string
     {
         return $this->webClient->getName();
     }
 
     /**
-     * @param  string|\Fam\Util\UserAgentParser\WebClient $webClient
+     * @param  string|WebClient $webClient
      * @return boolean
      */
-    public function isWebClient($webClient)
+    public function isWebClient($webClient): bool
     {
         return $this->webClient->isNameEquals($webClient);
     }
 
-    /**
-     * @return string
-     */
-    public function webClientVersion()
+    public function webClientVersion(): string
     {
         return $this->webClient->getVersion();
     }
 
-    /**
-     * @param  string  $webClientVersion
-     * @return boolean
-     */
-    public function isWebClientVersion($webClientVersion)
+    public function isWebClientVersion(string $webClientVersion): bool
     {
         return $this->webClient->isVersionEquals($webClientVersion);
     }
 
-    /**
-     * @param string $lowerVersion
-     * @param string $greaterVersion
-     *
-     * @return boolean
-     */
-    public function isWebClientVersionBetween($lowerVersion, $greaterVersion)
+    public function isWebClientVersionBetween(string $lowerVersion, string $greaterVersion): bool
     {
         return $this->webClient->isVersionBetween($lowerVersion, $greaterVersion);
     }

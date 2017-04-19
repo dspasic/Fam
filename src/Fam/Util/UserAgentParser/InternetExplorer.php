@@ -10,9 +10,8 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/AbstractWebClient.php';
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Represents a InternetExplorer
@@ -24,21 +23,15 @@ require_once __DIR__ . '/AbstractWebClient.php';
  */
 class InternetExplorer extends AbstractWebClient
 {
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'internetexplorer';
     }
 
-    /**
-     * @return array
-     */
-    protected function getPatterns()
+    protected function getPatterns(): array
     {
-        return array(
+        return [
             '#MSIE ([a-zA-Z0-9.]+)#i',
-        );
+        ];
     }
 }

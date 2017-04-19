@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Unix.php";
+use Fam\Util\UserAgentParser\Unix;
 
-class Fam_Util_UserAgentParser_UnixTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_UnixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      *
-     * @var \Fam\Util\UserAgentParser\Unix
+     * @var Unix
      */
     private $subject;
 
@@ -14,7 +14,7 @@ class Fam_Util_UserAgentParser_UnixTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->subject = new \Fam\Util\UserAgentParser\Unix();
+        $this->subject = new Unix();
     }
 
     /**
@@ -44,30 +44,30 @@ class Fam_Util_UserAgentParser_UnixTest extends PHPUnit_Framework_TestCase
 
     public function userAgentOsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 "Mozilla/5.0 (compatible; Konqueror/3.2; Linux 2.6.2) (KHTML, like Gecko)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD 2.6) (KHTML, like Gecko)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (compatible; Konqueror/3.2; NetBSD 2.6) (KHTML, like Gecko)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (compatible; Konqueror/3.2; IRIX 2.6) (KHTML, like Gecko)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (compatible; Konqueror/3.2; SunOS 2.6) (KHTML, like Gecko)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (compatible; Konqueror/3.2; Unix 2.6) (KHTML, like Gecko)",
-            ),
-        );
+            ],
+        ];
     }
 }

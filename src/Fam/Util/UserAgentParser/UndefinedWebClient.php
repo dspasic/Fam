@@ -10,9 +10,8 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/AbstractWebClient.php';
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Represents an undefined web client
@@ -24,19 +23,13 @@ require_once __DIR__ . '/AbstractWebClient.php';
  */
 class UndefinedWebClient extends AbstractWebClient
 {
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return "undefined";
     }
 
-    /**
-     * @return array
-     */
-    protected function getPatterns()
+    protected function getPatterns(): array
     {
-        return array();
+        return [];
     }
 }

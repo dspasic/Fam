@@ -1,11 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/InternetExplorer.php";
+use Fam\Util\UserAgentParser\InternetExplorer;
 
-class Fam_Util_UserAgentParser_InternetExplorerTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_InternetExplorerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Fam\Util\UserAgentParser\InternetExplorer
+     * @var InternetExplorer
      */
     private $subject;
 
@@ -13,7 +13,7 @@ class Fam_Util_UserAgentParser_InternetExplorerTest extends PHPUnit_Framework_Te
     {
         parent::setUp();
 
-        $this->subject = new \Fam\Util\UserAgentParser\InternetExplorer();
+        $this->subject = new InternetExplorer();
     }
 
     /**

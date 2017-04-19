@@ -10,9 +10,8 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/AbstractOperatingSystem.php';
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Reproduce a unix
@@ -24,12 +23,9 @@ require_once __DIR__ . '/AbstractOperatingSystem.php';
  */
 class Unix extends AbstractOperatingSystem
 {
-    /**
-     * @return array
-     */
-    protected function getPatterns()
+    protected function getPatterns(): array
     {
-        return array(
+        return [
             '/Linux/i',
             '/FreeBSD/i',
             '/NetBSD/i',
@@ -37,13 +33,10 @@ class Unix extends AbstractOperatingSystem
             '/IRIX/i',
             '/SunOS/i',
             '/Unix/i',
-        );
+        ];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'unix';
     }

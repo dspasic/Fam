@@ -1,11 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Firefox.php";
+use Fam\Util\UserAgentParser\Firefox;
 
-class Fam_Util_UserAgentParser_FirefoxTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_FirefoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Fam\Util\UserAgentParser\Firefox
+     * @var Firefox
      */
     private $subject;
 
@@ -13,7 +13,7 @@ class Fam_Util_UserAgentParser_FirefoxTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->subject = new \Fam\Util\UserAgentParser\Firefox();
+        $this->subject = new Firefox();
     }
 
     /**

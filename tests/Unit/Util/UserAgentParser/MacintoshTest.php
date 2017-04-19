@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Macintosh.php";
+use Fam\Util\UserAgentParser\Windows;
 
-class Fam_Util_UserAgentParser_MacintoshTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_MacintoshTest extends \PHPUnit\Framework\TestCase
 {
     /**
      *
-     * @var \Fam\Util\UserAgentParser\Windows
+     * @var Windows
      */
     private $subject;
 
@@ -44,19 +44,19 @@ class Fam_Util_UserAgentParser_MacintoshTest extends PHPUnit_Framework_TestCase
 
     public function userAgentOsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 "Mozilla/5.0 (Mac_PowerPC; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/5.0 (Mac OS X; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
-            ),
-        );
+            ],
+        ];
     }
 
 }

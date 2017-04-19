@@ -1,17 +1,17 @@
 <?php
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/AbstractOperatingSystem.php";
+use Fam\Util\UserAgentParser\AbstractOperatingSystem;
 
-class Fam_Util_UserAgentParser_MockOperatingSystem extends \Fam\Util\UserAgentParser\AbstractOperatingSystem
+class Fam_Util_UserAgentParser_MockOperatingSystem extends AbstractOperatingSystem
 {
-    public $patterns = array();
+    public $patterns = [];
     public $name;
 
-    public function getPatterns()
+    public function getPatterns(): array
     {
         return $this->patterns;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

@@ -10,9 +10,8 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/AbstractOperatingSystem.php';
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Reproduce a undefined operating system
@@ -24,18 +23,12 @@ require_once __DIR__ . '/AbstractOperatingSystem.php';
  */
 class UndefinedOperatingSystem extends AbstractOperatingSystem
 {
-    /**
-     * @return array
-     */
-    protected function getPatterns()
+    protected function getPatterns(): array
     {
-        return array();
+        return [];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'undefined';
     }

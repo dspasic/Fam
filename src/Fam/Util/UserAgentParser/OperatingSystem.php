@@ -10,6 +10,7 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
+
 namespace Fam\Util\UserAgentParser;
 
 /**
@@ -22,22 +23,14 @@ namespace Fam\Util\UserAgentParser;
  */
 interface OperatingSystem
 {
+    public function match(string $userAgent): bool;
+
+    public function getName(): string;
+
     /**
-     * @param string $userAgent
+     * @param string|OperatingSystem $operatingSystem
      *
      * @return boolean
      */
-    public function match($userAgent);
-
-    /**
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * @param string|Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     *
-     * @return boolean
-     */
-    public function equals($operatingSystem);
+    public function equals($operatingSystem): bool;
 }

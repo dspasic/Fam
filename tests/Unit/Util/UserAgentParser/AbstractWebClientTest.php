@@ -1,8 +1,10 @@
 <?php
 
+use Fam\Util\UserAgentParser\WebClient;
+
 require_once __DIR__ . "/MockWebClient.php";
 
-class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_AbstractWebClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Fam_Util_UserAgentParser_MockWebClient
@@ -21,9 +23,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function match_WithValidValue()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->assertTrue($this->subject->match(
             "Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9"
         ));
@@ -34,9 +36,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function match_WithInvalidValue()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->assertFalse($this->subject->match("Lynx/2.8.4rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/0.9.6c"));
     }
 
@@ -55,7 +57,7 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
     public function equals_WithValidOperatingSystem()
     {
         $this->subject->name = "firefox";
-        $op = $this->getMock('Fam\Util\UserAgentParser\WebClient', array(), array(), '', false);
+        $op = $this->getMockBuilder(WebClient::class)->getMock();
 
         $op->expects($this->once())
             ->method("getName")
@@ -79,9 +81,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function getVersion()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->subject->match("Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9");
         $this->assertEquals("9.99", $this->subject->getVersion());
     }
@@ -92,9 +94,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function isVersionEquals_WithValidVersion()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->subject->match("Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9");
         $this->assertTrue($this->subject->isVersionEquals("9.99"));
     }
@@ -105,9 +107,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function isVersionEquals_WithInvalidVersion()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->subject->match("Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9");
         $this->assertFalse($this->subject->isVersionEquals(__CLASS__));
     }
@@ -118,9 +120,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function isVersionBetween_WithValidVersions()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->subject->match("Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9");
         $this->assertTrue($this->subject->isVersionBetween('9', '10'));
     }
@@ -131,9 +133,9 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends PHPUnit_Framework_T
      */
     public function isVersionBetween_WithInvalidVersions()
     {
-        $this->subject->patterns = array(
+        $this->subject->patterns = [
             '#Opera[ /]([a-zA-Z0-9.]+)#i',
-        );
+        ];
         $this->subject->match("Opera/9.99 (Windows NT 5.1; U; pl) Presto/9.9.9");
         $this->assertFalse($this->subject->isVersionBetween('10', '12'));
     }

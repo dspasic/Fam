@@ -10,9 +10,8 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/OperatingSystem.php';
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Reproduce a windows
@@ -29,7 +28,7 @@ abstract class AbstractOperatingSystem implements OperatingSystem
      *
      * @return boolean
      */
-    public function match($userAgent)
+    public function match(string $userAgent): bool
     {
         foreach ($this->getPatterns() as $currentPattern) {
             if (preg_match($currentPattern, $userAgent)) {
@@ -43,25 +42,24 @@ abstract class AbstractOperatingSystem implements OperatingSystem
     /**
      * @return array
      */
-    abstract protected function getPatterns();
+    abstract protected function getPatterns(): array;
 
     /**
-     * @param string|Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
+     * @param string|OperatingSystem $operatingSystem
      *
      * @return boolean
      *
      * @throws \InvalidArgumentException
      */
-    public function equals($operatingSystem)
+    public function equals($operatingSystem): bool
     {
-        $name = '';
-        if ($operatingSystem instanceof \Fam\Util\UserAgentParser\OperatingSystem) {
+        if ($operatingSystem instanceof OperatingSystem) {
             $name = $operatingSystem->getName();
         } elseif (is_string($operatingSystem)) {
             $name = $operatingSystem;
         } else {
             throw new \InvalidArgumentException(
-                'Invalid argument given. Excpected argument are string or \Fam\Util\UserAgentParser\OperatingSystem'
+                'Invalid argument given. Expected argument are string or ' . OperatingSystem::class
             );
         }
 

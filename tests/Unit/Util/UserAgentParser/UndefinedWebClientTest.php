@@ -1,11 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/UndefinedWebClient.php";
+use Fam\Util\UserAgentParser\UndefinedWebClient;
 
-class Fam_Util_UserAgentParser_UndefinedWebClientTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_UndefinedWebClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Fam\Util\UserAgentParser\UndefinedWebClient
+     * @var UndefinedWebClient
      */
     private $subject;
 
@@ -13,7 +13,7 @@ class Fam_Util_UserAgentParser_UndefinedWebClientTest extends PHPUnit_Framework_
     {
         parent::setUp();
 
-        $this->subject = new \Fam\Util\UserAgentParser\UndefinedWebClient();
+        $this->subject = new UndefinedWebClient();
     }
 
     /**

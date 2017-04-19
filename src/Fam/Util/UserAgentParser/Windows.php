@@ -12,8 +12,6 @@
  */
 namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/AbstractOperatingSystem.php';
-
 /**
  * Reproduce a windows
  *
@@ -24,23 +22,17 @@ require_once __DIR__ . '/AbstractOperatingSystem.php';
  */
 class Windows extends AbstractOperatingSystem
 {
-    /**
-     * @var array
-     */
-    protected function getPatterns()
+    protected function getPatterns(): array
     {
-        return array(
+        return [
             '/windows/i',
             '/win98/i',
             '/win95/i',
             '/win 9x/i',
-        );
+        ];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'windows';
     }

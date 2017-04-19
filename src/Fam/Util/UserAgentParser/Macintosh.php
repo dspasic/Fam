@@ -10,9 +10,8 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
-namespace Fam\Util\UserAgentParser;
 
-require_once __DIR__ . '/AbstractOperatingSystem.php';
+namespace Fam\Util\UserAgentParser;
 
 /**
  * Reproduce a macintosh
@@ -24,22 +23,16 @@ require_once __DIR__ . '/AbstractOperatingSystem.php';
  */
 class Macintosh extends AbstractOperatingSystem
 {
-    /**
-     * @return array
-     */
-    protected function getPatterns()
+    protected function getPatterns(): array
     {
-        return array(
+        return [
             '/Mac_PowerPC/i',
             '/Mac OS X/i',
             '/Macintosh/i',
-        );
+        ];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'macintosh';
     }

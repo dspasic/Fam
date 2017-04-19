@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/Windows.php";
+use Fam\Util\UserAgentParser\Windows;
 
-class Fam_Util_UserAgentParser_WindowsTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_WindowsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      *
-     * @var \Fam\Util\UserAgentParser\Windows
+     * @var Windows
      */
     private $subject;
 
@@ -14,7 +14,7 @@ class Fam_Util_UserAgentParser_WindowsTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->subject = new \Fam\Util\UserAgentParser\Windows();
+        $this->subject = new Windows();
     }
 
     /**
@@ -44,22 +44,22 @@ class Fam_Util_UserAgentParser_WindowsTest extends PHPUnit_Framework_TestCase
 
     public function userAgentOsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/4.0 (compatible; MSIE 6.0; win98 5.0)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/4.0 (compatible; MSIE 6.0; win95 5.0)",
-            ),
+            ],
 
-            array(
+            [
                 "Mozilla/4.0 (compatible; MSIE 6.0; win 9x 5.0)",
-            ),
-        );
+            ],
+        ];
     }
 }

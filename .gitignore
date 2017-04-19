@@ -14,3 +14,5 @@ pyramid.svg
 nbproject
 *.swp
 build
+composer.lock
+vendor

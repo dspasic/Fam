@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../../../../src/Fam/Util/UserAgentParser/UndefinedOperatingSystem.php";
+use Fam\Util\UserAgentParser\Windows;
 
-class Fam_Util_UserAgentParser_UndefinedOperatingSystemTest extends PHPUnit_Framework_TestCase
+class Fam_Util_UserAgentParser_UndefinedOperatingSystemTest extends \PHPUnit\Framework\TestCase
 {
     /**
      *
-     * @var \Fam\Util\UserAgentParser\Windows
+     * @var Windows
      */
     private $subject;
 

@@ -11,18 +11,11 @@
  */
 namespace Fam\Util;
 
-require_once __DIR__ . '/UserAgentParser/Windows.php';
-require_once __DIR__ . '/UserAgentParser/Macintosh.php';
-require_once __DIR__ . '/UserAgentParser/Unix.php';
-require_once __DIR__ . '/UserAgentParser/UndefinedOperatingSystem.php';
-
-require_once __DIR__ . '/UserAgentParser/Firefox.php';
-require_once __DIR__ . '/UserAgentParser/Safari.php';
-require_once __DIR__ . '/UserAgentParser/Opera.php';
-require_once __DIR__ . '/UserAgentParser/InternetExplorer.php';
-require_once __DIR__ . '/UserAgentParser/UndefinedWebClient.php';
-
-require_once __DIR__ . '/UserAgentParser/UserAgent.php';
+use Fam\Util\UserAgentParser\OperatingSystem;
+use Fam\Util\UserAgentParser\UndefinedOperatingSystem;
+use Fam\Util\UserAgentParser\UndefinedWebClient;
+use Fam\Util\UserAgentParser\UserAgent;
+use Fam\Util\UserAgentParser\WebClient;
 
 /**
  * A lightweight and fast browser detector
@@ -70,25 +63,22 @@ class UserAgentParser
     private $webClients = array();
 
     /**
-     * @var \Fam\Util\UserAgentParser\OperatingSystem
+     * @var OperatingSystem
      */
     private $undefinedOperatingSystem;
 
     /**
-     * @var \Fam\Util\UserAgentParser\OperatingSystem
+     * @var OperatingSystem
      */
     private $undefinedWebClient;
 
     public function __construct()
     {
-        $this->undefinedOperatingSystem = new UserAgentParser\UndefinedOperatingSystem();
-        $this->undefinedWebClient = new UserAgentParser\UndefinedWebClient();
+        $this->undefinedOperatingSystem = new UndefinedOperatingSystem();
+        $this->undefinedWebClient = new UndefinedWebClient();
     }
 
-    /**
-     * @return \Fam\Util\UserAgentParser
-     */
-    public static function createInstance()
+    public static function createInstance(): self
     {
         $self = new static();
         $self->initializeCommonOperatingSystems();
@@ -112,21 +102,17 @@ class UserAgentParser
         $this->addWebClient(new UserAgentParser\InternetExplorer());
     }
 
-    /**
-     * @param  string              $userAgent
-     * @return \Fam\Util\UserAgent
-     */
-    public function parseUserAgent($userAgent)
+    public function parseUserAgent(string $userAgent): UserAgent
     {
         $this->userAgent = $userAgent;
 
-        return new UserAgentParser\UserAgent($this->parseOs(), $this->parseWebClient());
+        return new UserAgent($this->parseOs(), $this->parseWebClient());
     }
 
     /**
-     * @return \Fam\Util\UserAgentParser\OperatingSystem
+     * @return OperatingSystem
      */
-    private function parseOs()
+    private function parseOs(): OperatingSystem
     {
         foreach ($this->operatingSystems as $currentOs) {
             if ($currentOs->match($this->userAgent)) {
@@ -137,10 +123,7 @@ class UserAgentParser
         return $this->undefinedOperatingSystem;
     }
 
-    /**
-     * @return \Fam\Util\UserAgentParser\WebClient
-     */
-    private function parseWebClient()
+    private function parseWebClient(): WebClient
     {
         foreach ($this->webClients as $currentWebClient) {
             if ($currentWebClient->match($this->userAgent)) {
@@ -151,100 +134,62 @@ class UserAgentParser
         return $this->undefinedWebClient;
     }
 
-    /**
-     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     */
-    public function addOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
+    public function addOperatingSystem(OperatingSystem $operatingSystem)
     {
         $this->operatingSystems[get_class($operatingSystem)] = $operatingSystem;
     }
 
-    /**
-     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     */
-    public function removeOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
+    public function removeOperatingSystem(OperatingSystem $operatingSystem)
     {
         $this->removeOperatingSystemByClassName(get_class($operatingSystem));
     }
 
-    /**
-     * @param string $operatingSystem
-     */
-    public function removeOperatingSystemByClassName($operatingSystem)
+    public function removeOperatingSystemByClassName(string $operatingSystem)
     {
         unset($this->operatingSystems[$operatingSystem]);
     }
 
-    /**
-     * @return array
-     */
-    public function getOperatingSystems()
+    public function getOperatingSystems(): array
     {
         return $this->operatingSystems;
     }
 
-    /**
-     *
-     * @return \Fam\Util\UserAgentParser\OperatingSystem
-     */
-    public function getUndefinedOperatingSystem()
+    public function getUndefinedOperatingSystem(): OperatingSystem
     {
         return $this->undefinedOperatingSystem;
     }
 
-    /**
-     * @param \Fam\Util\UserAgentParser\OperatingSystem $operatingSystem
-     */
-    public function setUndefinedOperatingSystem(\Fam\Util\UserAgentParser\OperatingSystem $operatingSystem)
+    public function setUndefinedOperatingSystem(OperatingSystem $operatingSystem)
     {
         $this->undefinedOperatingSystem = $operatingSystem;
     }
 
-    /**
-     * @param \Fam\Util\UserAgentParser\WebClient $webClient
-     */
-    public function addWebClient(\Fam\Util\UserAgentParser\WebClient $webClient)
+    public function addWebClient(WebClient $webClient)
     {
         $this->webClients[get_class($webClient)] = $webClient;
     }
 
-    /**
-     * @param \Fam\Util\UserAgentParser\WebClient $webClient
-     */
-    public function removeWebClient(\Fam\Util\UserAgentParser\WebClient $webClient)
+    public function removeWebClient(WebClient $webClient)
     {
         $this->removeWebClientByClassName(get_class($webClient));
     }
 
-    /**
-     * @param string $webClient
-     */
-    public function removeWebClientByClassName($webClient)
+    public function removeWebClientByClassName(string $webClient)
     {
         unset($this->webClients[$webClient]);
     }
 
-    /**
-     * @return array
-     */
-    public function getWebClients()
+    public function getWebClients(): array
     {
         return $this->webClients;
     }
 
-    /**
-     *
-     * @return \Fam\Util\UserAgentParser\WebClient
-     */
-    public function getUndefinedWebClient()
+    public function getUndefinedWebClient(): WebClient
     {
         return $this->undefinedWebClient;
     }
 
-    /**
-     * @param \Fam\Util\UserAgentParser\WebClient $operatingSystem
-     */
-    public function setUndefinedWebClient(\Fam\Util\UserAgentParser\WebClient $webClient)
+    public function setUndefinedWebClient(WebClient $webClient)
     {
         $this->undefinedWebClient = $webClient;
     }
