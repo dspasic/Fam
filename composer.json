@@ -6,6 +6,9 @@
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
-        "psr-4": { "Fam\\Util\\": "src/Fam/Util" }
+        "psr-4": { "Fam\\Util\\": "src/" }
+    },
+    "config": {
+        "bin-dir": "bin/"
     }
 }
