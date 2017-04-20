@@ -1,14 +1,13 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\OperatingSystem;
+use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . "/MockOperatingSystem.php";
-
-class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends \PHPUnit\Framework\TestCase
+class AbstractOperatingSystemTest extends TestCase
 {
     /**
      *
-     * @var Fam_Util_UserAgentParser_MockOperatingSystem
+     * @var MockOperatingSystem
      */
     private $subject;
 
@@ -16,7 +15,7 @@ class Fam_Util_UserAgentParser_AbstractOperatingSystemTest extends \PHPUnit\Fram
     {
         parent::setUp();
 
-        $this->subject = new Fam_Util_UserAgentParser_MockOperatingSystem();
+        $this->subject = new MockOperatingSystem();
     }
 
     /**

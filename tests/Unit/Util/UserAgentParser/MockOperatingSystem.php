@@ -1,10 +1,10 @@
 <?php
-use Fam\Util\UserAgentParser\AbstractOperatingSystem;
+namespace Fam\Util\UserAgentParser;
 
-class Fam_Util_UserAgentParser_MockOperatingSystem extends AbstractOperatingSystem
+class MockOperatingSystem extends AbstractOperatingSystem
 {
     public $patterns = [];
-    public $name;
+    public $name = '';
 
     public function getPatterns(): array
     {

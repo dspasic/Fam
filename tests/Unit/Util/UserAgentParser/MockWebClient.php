@@ -1,18 +1,17 @@
 <?php
-use Fam\Util\UserAgentParser\AbstractWebClient;
+namespace Fam\Util\UserAgentParser;
 
-
-class Fam_Util_UserAgentParser_MockWebClient extends AbstractWebClient
+class MockWebClient extends AbstractWebClient
 {
     public $patterns = array();
-    public $name = "";
+    public $name = '';
 
-    protected function  getPatterns(): array
+    protected function getPatterns(): array
     {
         return $this->patterns;
     }
 
-    public function  getName(): string
+    public function getName(): string
     {
         return $this->name;
     }

@@ -1,13 +1,14 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\WebClient;
+use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/MockWebClient.php";
 
-class Fam_Util_UserAgentParser_AbstractWebClientTest extends \PHPUnit\Framework\TestCase
+class AbstractWebClientTest extends TestCase
 {
     /**
-     * @var Fam_Util_UserAgentParser_MockWebClient
+     * @var MockWebClient
      */
     private $subject;
 
@@ -15,7 +16,7 @@ class Fam_Util_UserAgentParser_AbstractWebClientTest extends \PHPUnit\Framework\
     {
         parent::setUp();
 
-        $this->subject = new Fam_Util_UserAgentParser_MockWebClient();
+        $this->subject = new MockWebClient();
     }
 
     /**

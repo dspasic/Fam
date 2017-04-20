@@ -1,5 +1,4 @@
 <?php
-
 namespace Fam\Util;
 
 use PHPUnit\Framework\TestCase;

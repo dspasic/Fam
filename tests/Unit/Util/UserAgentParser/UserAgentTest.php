@@ -1,10 +1,9 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\WebClient;
-use Fam\Util\UserAgentParser\OperatingSystem;
-use Fam\Util\UserAgentParser\UserAgent;
+use PHPUnit\Framework\TestCase;
 
-class Fam_Util_UserAgentParser_UserAgentTest extends \PHPUnit\Framework\TestCase
+class UserAgentTest extends TestCase
 {
     /**
      * @test

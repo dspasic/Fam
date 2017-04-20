@@ -8,6 +8,9 @@
     "autoload": {
         "psr-4": { "Fam\\Util\\": "src/" }
     },
+    "autoload-dev": {
+        "psr-4": { "Fam\\Util\\": "tests/Unit/Util/"}
+    },
     "config": {
         "bin-dir": "bin/"
     }

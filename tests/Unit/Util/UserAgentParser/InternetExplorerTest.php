@@ -1,8 +1,9 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\InternetExplorer;
+use PHPUnit\Framework\TestCase;
 
-class Fam_Util_UserAgentParser_InternetExplorerTest extends \PHPUnit\Framework\TestCase
+class InternetExplorerTest extends TestCase
 {
     /**
      * @var InternetExplorer

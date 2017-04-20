@@ -1,11 +1,11 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\Windows;
+use PHPUnit\Framework\TestCase;
 
-class Fam_Util_UserAgentParser_WindowsTest extends \PHPUnit\Framework\TestCase
+class WindowsTest extends TestCase
 {
     /**
-     *
      * @var Windows
      */
     private $subject;

@@ -1,8 +1,9 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\Firefox;
+use PHPUnit\Framework\TestCase;
 
-class Fam_Util_UserAgentParser_SafariTest extends \PHPUnit\Framework\TestCase
+class SafariTest extends TestCase
 {
     /**
      * @var Firefox

@@ -1,8 +1,9 @@
 <?php
+namespace Fam\Util\UserAgentParser;
 
-use Fam\Util\UserAgentParser\UndefinedWebClient;
+use PHPUnit\Framework\TestCase;
 
-class Fam_Util_UserAgentParser_UndefinedWebClientTest extends \PHPUnit\Framework\TestCase
+class UndefinedWebClientTest extends TestCase
 {
     /**
      * @var UndefinedWebClient
