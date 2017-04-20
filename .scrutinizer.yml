@@ -1,3 +1,6 @@
+checks:
+    php: true
+
 filter:
     excluded_paths:
         - 'bin/*'
@@ -16,8 +19,11 @@ build:
             ini:
                 'date.timezone': 'Europe/Berlin'
 
+before_commands:
+    - "composer install --prefer-source"
+
 tools:
-    external_code_coverage: true
+    php_code_coverage: true
 
     php_cpd:
         enabled: true
@@ -33,7 +39,7 @@ tools:
           level: psr2
 
     php_hhvm:
-        enabled: true
+        enabled: false
 
     php_mess_detector:
         enabled: true
