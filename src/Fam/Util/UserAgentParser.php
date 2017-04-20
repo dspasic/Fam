@@ -9,6 +9,7 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
+
 namespace Fam\Util;
 
 use Fam\Util\UserAgentParser\OperatingSystem;
@@ -21,23 +22,22 @@ use Fam\Util\UserAgentParser\WebClient;
  * A lightweight and fast browser detector
  *
  * Sniffs the operating system, web client name and web client version from
- * envorinment HTTP_USER_AGENT.
+ * environment HTTP_USER_AGENT.
  *
  * <code>
- *   if (UserAgentParser::isWebClient(UserAgentParser::WEBCLIENT_OP)) {
+ *   $userAgent = UserAgentParser::createInstance()->parseUserAgent($_SERVER['HTTP_USER_AGENT']);
+ *
+ *   if ($userAgent->isWebClient('firefox')) {
  *       if (UserAgentParser::isWebClientVersionBetween(9.5, 9.6)) {
- *           use_stylesheet('brigitte/opera95.css');
+ *          echo 'firefox between 95 and 96';
  *       }
  *       else if (UserAgentParser::isWebClientVersionBetween(9.2, 9.4)) {
- *           use_stylesheet('brigitte/opera92.css');
+ *          echo 'firefox between 92 and 94';
  *       }
  *   }
- *   else if (UserAgentParser::isWebClient(UserAgentParser::WEBCLIENT_SAFARI)) {
- *       use_stylesheet('brigitte/safari.css');
- *   }
  *
- *   if (UserAgentParser::isOs(UserAgentParser::OS_MAC)) {
- *       use_stylesheet('brigitte/mac.css');
+ *   if ($userAgent->isOs('macintosh')) {
+ *      echo 'Mac';
  *   }
  * </code>
  *

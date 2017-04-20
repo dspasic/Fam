@@ -52,14 +52,13 @@ abstract class AbstractWebClient implements WebClient
      */
     public function isNameEquals($webClient): bool
     {
-        $name = '';
         if ($webClient instanceof WebClient) {
             $name = $webClient->getName();
         } elseif (is_string($webClient)) {
             $name = $webClient;
         } else {
             throw new \InvalidArgumentException(
-                'Invalid argument given. Excpected argument are string or \Fam\Util\UserAgentParser\WebClient'
+                'Invalid argument given. Excpected argument are string or ' . WebClient::class
             );
         }
 
