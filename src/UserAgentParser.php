@@ -68,7 +68,7 @@ class UserAgentParser
     private $undefinedOperatingSystem;
 
     /**
-     * @var OperatingSystem
+     * @var WebClient
      */
     private $undefinedWebClient;
 
