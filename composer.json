@@ -1,4 +1,17 @@
 {
+    "name": "fam/util-useragentparser",
+    "version": "1.0",
+    "license": "Apache-2.0",
+    "authors": [{
+        "name": "Dejan Spasic",
+        "email": "spasic.dejan@yahoo.de",
+        "role": "maintainer",
+        "homepage": "https://about.me/dejan.spasic"
+    }],
+    "support": {
+        "source": "https://github.com/dspasic/Fam",
+        "issues": "https://github.com/dspasic/Fam/issues"
+    },
     "require": {
         "php": "^7.1"
     },
