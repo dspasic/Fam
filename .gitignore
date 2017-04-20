@@ -16,3 +16,4 @@ nbproject
 build
 composer.lock
 vendor
+/bin/phpunit
