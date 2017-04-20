@@ -2,6 +2,19 @@ filter:
     excluded_paths:
         - 'bin/*'
         - 'vendor/*'
+build:
+    tests:
+        override:
+            -
+                command: bin/phpunit
+                coverage:
+                    file: 'build/logs/clover.xml'
+                    format: 'clover'
+    environment:
+        php:
+            version: 7.1
+            ini:
+                'date.timezone': 'Europe/Berlin'
 
 tools:
     external_code_coverage: true
