@@ -3,8 +3,6 @@ namespace Fam\Util\UserAgentParser;
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . "/MockWebClient.php";
-
 class AbstractWebClientTest extends TestCase
 {
     /**
