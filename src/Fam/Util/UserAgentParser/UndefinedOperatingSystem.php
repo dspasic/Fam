@@ -1,6 +1,6 @@
 <?php
 /**
- * (c) 2008 Dejan Spasic <sapsic.dejan@yahoo.de>
+ * (c) 2008 Dejan Spasic <spasic.dejan@yahoo.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
