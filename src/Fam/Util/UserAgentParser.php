@@ -87,14 +87,14 @@ class UserAgentParser
         return $self;
     }
 
-    private function initializeCommonOperatingSystems()
+    private function initializeCommonOperatingSystems(): void
     {
         $this->addOperatingSystem(new UserAgentParser\Windows());
         $this->addOperatingSystem(new UserAgentParser\Macintosh());
         $this->addOperatingSystem(new UserAgentParser\Unix());
     }
 
-    private function initializeCommonWebClients()
+    private function initializeCommonWebClients(): void
     {
         $this->addWebClient(new UserAgentParser\Firefox());
         $this->addWebClient(new UserAgentParser\Opera());
@@ -164,12 +164,12 @@ class UserAgentParser
         $this->undefinedOperatingSystem = $operatingSystem;
     }
 
-    public function addWebClient(WebClient $webClient)
+    public function addWebClient(WebClient $webClient): void
     {
         $this->webClients[get_class($webClient)] = $webClient;
     }
 
-    public function removeWebClient(WebClient $webClient)
+    public function removeWebClient(WebClient $webClient): void
     {
         $this->removeWebClientByClassName(get_class($webClient));
     }
@@ -189,7 +189,7 @@ class UserAgentParser
         return $this->undefinedWebClient;
     }
 
-    public function setUndefinedWebClient(WebClient $webClient)
+    public function setUndefinedWebClient(WebClient $webClient): void
     {
         $this->undefinedWebClient = $webClient;
     }

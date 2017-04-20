@@ -10,6 +10,7 @@
  * @author     Dejan Spasic <spasic.dejan@yahoo.de>
  * @version    GIT: $Id:$
  */
+
 namespace Fam\Util\UserAgentParser;
 
 /**
