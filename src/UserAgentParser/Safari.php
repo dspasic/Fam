@@ -31,7 +31,7 @@ class Safari extends AbstractWebClient
     protected function getPatterns(): array
     {
         return [
-            '#Safari/([a-zA-Z0-9.]+)#i',
+            '#Version/([0-9.]+) Safari/([a-zA-Z0-9.]+)#i',
         ];
     }
 }
